@@ -1,9 +1,11 @@
+
+import AboutPages from '@/components/Modules/About'
 import React from 'react'
 
 const AboutPage = () => {
   return (
     <div>
-      <h1>About Page</h1>
+      <AboutPages />
     </div>
   )
 }

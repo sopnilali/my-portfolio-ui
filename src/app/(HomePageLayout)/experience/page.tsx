@@ -1,4 +1,4 @@
-import ExperienceList from '@/components/Modules/Experience'
+import ExperienceList from '@/components/Modules/ExperienceAndEducationList'
 import React from 'react'
 
 const ExperiencePage = () => {

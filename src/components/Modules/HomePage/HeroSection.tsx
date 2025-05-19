@@ -4,11 +4,11 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import Image from 'next/image';
-import { FaFacebook, FaGithub, FaLinkedin, FaInstagram, FaTwitter } from 'react-icons/fa';
+import { FaFacebook, FaGithub, FaLinkedin, FaInstagram, FaTwitter, FaDownload } from 'react-icons/fa';
 
 const heroData = {
   name: "Md. Abdul Adud",
-  title: "2nd Level Web Developer",
+  title: "Full Stack Developer",
   description: "I am a web developer focused on building scalable, maintainable, and high-quality web applications. . I have a deep love for learning and always strive to improve my skills.",
   buttons: [
     {
@@ -17,7 +17,7 @@ const heroData = {
       primary: true
     },
     {
-      text: "Resume", 
+      text: <span className='flex items-center gap-2'>{<FaDownload />} Resume</span>, 
       link: "https://drive.google.com/uc?export=download&id=1jSi87WlPbI0zkfuxcqnexH3eRSWwDstC",
       primary: false
     }
@@ -45,7 +45,7 @@ const heroData = {
 const HeroSection = () => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-white/70 dark:bg-gray-900/70 backdrop-blur-md pt-16">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12 relative z-20">
+      <div className="container mx-auto px-4 sm:px-4 lg:px-4 relative z-20">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
           {/* Hero Image - Now at top for mobile */}
           <motion.div
@@ -55,9 +55,9 @@ const HeroSection = () => {
             className="relative order-first lg:order-last"
           >
             <motion.div
-              whileHover={{ scale: 1.05 }}
+              whileHover={{ scale: 0.96 }}
               transition={{ duration: 0.3 }}
-              className="relative w-full aspect-square rounded-full overflow-hidden shadow-[0_0_50px_rgba(0,0,0,0.2)] backdrop-blur-sm bg-white/30"
+              className="relative w-full aspect-square border-4 scale-95 border-gray-200 rounded-full overflow-hidden shadow-[0_0_50px_rgba(0,0,0,0.2)] backdrop-blur-sm bg-white/30"
             >
               <Image
                 src={heroData.image.src}
@@ -122,7 +122,7 @@ const HeroSection = () => {
               {heroData.buttons.map((button, index) => (
                 <Link key={index} href={button.link} className="w-full sm:w-auto">
                   <motion.button
-                    whileHover={{ scale: 1.05 }}
+                    whileHover={{ scale: 0.95 }}
                     whileTap={{ scale: 0.95 }}
                     className={`w-full sm:w-auto ${button.primary ? 
                       "bg-gray-800 text-white px-6 py-3 rounded-md font-medium" :

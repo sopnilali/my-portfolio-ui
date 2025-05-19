@@ -27,19 +27,20 @@ const Navbar = () => {
       <div className="container mx-auto px-4 sm:px-4 lg:px-4 ">
         <div className="flex justify-between items-center h-20">
           <Link href="/" className="flex items-center text-black">
-            <span className={`text-3xl font-semibold ${isScrolled || isMenuOpen ? 'text-gray-900 ' : 'text-black'}`}>Md. Abdul Adud</span>
+            <span className={`text-xl sm:text-2xl md:text-3xl font-semibold ${isScrolled || isMenuOpen ? 'text-gray-900 ' : 'text-black'}`}>Md. Abdul Adud</span>
           </Link>
           
-          <div className="hidden md:flex  border-red-500  items-center space-x-4">
+          <div className="hidden lg:flex items-center space-x-4">
             <NavLink href="/" label="Home" isScrolled={isScrolled} />
             <NavLink href="/project" label="Projects" isScrolled={isScrolled} />
             <NavLink href="/experience" label="Experience" isScrolled={isScrolled} />
             <NavLink href="/skill" label="Skills" isScrolled={isScrolled} />
+            <NavLink href="/blog" label="Blog" isScrolled={isScrolled} />
             <NavLink href="/about" label="About" isScrolled={isScrolled} />
             <NavLink href="/contact" label="Contact" isScrolled={isScrolled} />
           </div>
 
-          <div className="md:hidden flex items-center">
+          <div className="lg:hidden flex items-center">
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               className={`inline-flex items-center justify-center p-2 rounded-md ${isScrolled || isMenuOpen ? 'text-gray-900' : 'text-black'} hover:bg-gray-100/20 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-gray-500`}
@@ -62,7 +63,7 @@ const Navbar = () => {
       <AnimatePresence>
         {isMenuOpen && (
           <motion.div
-            className="md:hidden fixed top-0 right-0 min-h-screen w-64 bg-white shadow-lg "
+            className="lg:hidden fixed top-0 right-0 min-h-screen w-64 bg-white shadow-lg "
             initial="closed"
             animate="open"
             exit="closed"
@@ -82,6 +83,7 @@ const Navbar = () => {
               <MobileNavLink href="/projects" label="Projects" onClick={() => setIsMenuOpen(false)} />
               <MobileNavLink href="/experience" label="Experience" onClick={() => setIsMenuOpen(false)} />
               <MobileNavLink href="/skill" label="Skills" onClick={() => setIsMenuOpen(false)} />
+              <MobileNavLink href="/blog" label="Blog" onClick={() => setIsMenuOpen(false)} />
               <MobileNavLink href="/about" label="About" onClick={() => setIsMenuOpen(false)} />
               <MobileNavLink href="/contact" label="Contact" onClick={() => setIsMenuOpen(false)} />
             </div>
@@ -102,7 +104,7 @@ const NavLink = ({ href, label, isScrolled }: { href: string; label: string; isS
       href={href} 
       className={`px-3 py-3  rounded-md text-lg font-medium ${
         isActive 
-          ? ' text-orange-500'
+          ? ' text-gray-600'
           : isScrolled 
             ? 'text-gray-900 ' 
             : 'text-black hover:bg-white/20'

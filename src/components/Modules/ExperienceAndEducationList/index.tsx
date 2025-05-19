@@ -34,10 +34,10 @@ const ExperienceAndEducationList = () => {
     const experienceInfo = experienceData?.data
     return (
         <div className="bg-white/70 backdrop-blur-md min-h-screen flex items-center">
-            <div className="container mx-auto py-12">
+            <div className="container mx-auto py-12 px-4 sm:px-4 lg:px-4">
                 <div data-aos="fade-up" data-aos-duration="1500" className="flex flex-col md:flex-row">
                     {/* Education Column */}
-                    <div className="w-full md:w-1/2 pl-0 md:pl-4">
+                    <div className="w-full md:w-1/2 pl-0 ">
                         <h3 className="text-3xl font-bold text-gray-700 mb-6">Education</h3>
                         {educationData?.map((item: any, index: number) => (
                             <motion.div
@@ -47,7 +47,7 @@ const ExperienceAndEducationList = () => {
                                 transition={{ duration: 0.5, delay: index * 0.1 }}
                                 className="mb-8 flex"
                             >
-                                <div className="flex-shrink-0 mr-4">
+                                <div className="flex-shrink-0 mr-2">
                                     <div className="flex items-center justify-center w-10 h-10 rounded-full bg-gray-600 text-white">
                                         <div className="w-3 h-3 bg-white rounded-full"></div>
                                     </div>
@@ -55,8 +55,8 @@ const ExperienceAndEducationList = () => {
                                         <div className="w-0.5 h-full bg-gray-600 mx-auto"></div>
                                     )}
                                 </div>
-                                <div className="flex-grow pb-8">
-                                    <div className="bg-white rounded-lg shadow-lg p-6 h-full transition-all duration-300 hover:bg-gray-50 hover:shadow-xl hover:scale-[1.02]">
+                                <div className="flex-grow ">
+                                    <div className="bg-white rounded-lg shadow-lg p-6 h-full transition-all duration-300 hover:shadow-xl">
                                         <p className="text-gray-600 mb-4 font-bold">
                                             {new Date(item.startDate).toLocaleDateString('en-US', { year: 'numeric' })} - {new Date(item.endDate).toLocaleDateString('en-US', { year: 'numeric' })}
                                         </p>
@@ -88,7 +88,7 @@ const TimelineItem = ({ item, index, isLast }: { item: any, index: number, isLas
         transition={{ duration: 0.5, delay: index * 0.1 }}
         className="mb-8 flex"
     >
-        <div className="flex-shrink-0 mr-4">
+        <div className="flex-shrink-0 mr-2">
             <div className="flex items-center justify-center w-10 h-10 rounded-full bg-gray-600 text-white">
                 <div className="w-3 h-3 bg-white rounded-full"></div>
             </div>
@@ -96,8 +96,8 @@ const TimelineItem = ({ item, index, isLast }: { item: any, index: number, isLas
                 <div className="w-0.5 h-full bg-gray-600 mx-auto"></div>
             )}
         </div>
-        <div className="flex-grow pb-8">
-            <div className="bg-white rounded-lg shadow-lg p-6 h-full transition-all duration-300 hover:bg-gray-50 hover:shadow-xl hover:scale-[1.02]">
+        <div className="flex-grow ">
+            <div className="bg-white rounded-lg shadow-lg p-6 h-full transition-all duration-300 hover:bg-gray-50 hover:shadow-xl ">
                 <p className="text-gray-600 mb-4 font-bold">
                     {new Date(item.startDate).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })} - {new Date(item.endDate).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
                 </p>

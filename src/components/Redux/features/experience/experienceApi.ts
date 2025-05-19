@@ -1,5 +1,6 @@
 import { baseApi } from "../../api/baseApi";
 
+
 const experienceApi = baseApi.injectEndpoints({
     endpoints: (builder) => ({
         getAllExperience: builder.query({
@@ -7,7 +8,7 @@ const experienceApi = baseApi.injectEndpoints({
                 url: '/experience',
                 method: 'GET'
             }),
-            providesTags: ['project']
+            providesTags: ['experience']
         }),
     })
 });
@@ -15,3 +16,4 @@ const experienceApi = baseApi.injectEndpoints({
 export const {
     useGetAllExperienceQuery,
 } = experienceApi;
+    
