@@ -1,7 +1,12 @@
 import SkillsList from '@/components/Modules/HomePage/SkillsList'
+import { Metadata } from 'next'
 import React from 'react'
-import { motion } from 'framer-motion'
-import Image from 'next/image'
+
+
+export const metadata : Metadata = {
+  title: "My Skills",
+  description: "My Skills"
+}
 
 const SkillPage = () => {
   return (
