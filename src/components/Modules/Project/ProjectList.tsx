@@ -43,12 +43,8 @@ const ProjectList = () => {
       </motion.div>
       <div className='flex justify-center items-center pt-4'>
       <motion.a
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
         href="/project"
-        className=" mt-4 px-4 py-2 bg-gray-700 text-white rounded-lg hover:bg-gray-700 transition-colors duration-300 flex items-center justify-center gap-2 text-sm"
+        className=" mt-4 px-4 py-2 border border-gray-800 text-black rounded-md hover:bg-gray-700 transition-colors text-base font-semibold hover:text-white duration-300  cursor-pointer "
       >
         <span>More Projects</span>
       </motion.a>
