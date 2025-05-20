@@ -12,8 +12,8 @@ const HomePageIndex = () => {
   return (
     <div>
       <HeroSection />
-      <SkillsList />
       <ProjectList />
+      <SkillsList />
       <ExperienceAndEducationList />
       <BlogList />
     </div>

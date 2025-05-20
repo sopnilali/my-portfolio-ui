@@ -80,7 +80,7 @@ const Navbar = () => {
                 </svg>
               </button>
               <MobileNavLink href="/" label="Home" onClick={() => setIsMenuOpen(false)} />
-              <MobileNavLink href="/projects" label="Projects" onClick={() => setIsMenuOpen(false)} />
+              <MobileNavLink href="/project" label="Projects" onClick={() => setIsMenuOpen(false)} />
               <MobileNavLink href="/experience" label="Experience" onClick={() => setIsMenuOpen(false)} />
               <MobileNavLink href="/skill" label="Skills" onClick={() => setIsMenuOpen(false)} />
               <MobileNavLink href="/blog" label="Blog" onClick={() => setIsMenuOpen(false)} />
