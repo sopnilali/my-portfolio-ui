@@ -44,10 +44,10 @@ const heroData = {
 
 const HeroSection = () => {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-white/70 dark:bg-gray-900/70 backdrop-blur-md pt-16">
+    <div className="min-h-screen flex items-center justify-center bg-white/40 dark:bg-gray-900/40 backdrop-blur-2xl pt-16 relative">
       <div className="container mx-auto px-4 sm:px-4 lg:px-4 relative z-20">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
-          {/* Hero Image - Now at top for mobile */}
+          {/* Hero Image */}
           <motion.div
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
@@ -57,7 +57,7 @@ const HeroSection = () => {
             <motion.div
               whileHover={{ scale: 0.96 }}
               transition={{ duration: 0.3 }}
-              className="relative w-full aspect-square border-4 scale-95 border-gray-200 rounded-full overflow-hidden shadow-[0_0_50px_rgba(0,0,0,0.2)] backdrop-blur-sm bg-white/30"
+              className="relative w-full aspect-square border-4 scale-95 border-gray-200/50 dark:border-gray-700/50 rounded-full overflow-hidden shadow-[0_0_50px_rgba(0,0,0,0.2)] backdrop-blur-xl bg-white/20 dark:bg-gray-800/20"
             >
               <Image
                 src={heroData.image.src}
@@ -74,10 +74,10 @@ const HeroSection = () => {
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8 }}
-            className="space-y-6 order-last lg:order-first"
+            className="space-y-6 p-8 rounded-2xl "
           >
             <motion.h1 
-              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-800"
+              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-gray-900 to-gray-700 dark:from-white dark:to-gray-300"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
@@ -91,14 +91,13 @@ const HeroSection = () => {
                     duration: 0.5,
                     delay: index * 0.1,
                   }}
-                  className=""
                 >
                   {char}
                 </motion.span>
               ))}
             </motion.h1>
             <motion.h2 
-              className="text-xl sm:text-2xl md:text-3xl text-gray-800"
+              className="text-xl sm:text-2xl md:text-3xl font-semibold text-gray-800 dark:text-gray-200"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4 }}
@@ -106,7 +105,7 @@ const HeroSection = () => {
               {heroData.title}
             </motion.h2>
             <motion.p 
-              className="text-base sm:text-lg text-gray-800"
+              className="text-base sm:text-lg text-gray-700 dark:text-gray-300"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.6 }}
@@ -124,9 +123,9 @@ const HeroSection = () => {
                   <motion.button
                     whileHover={{ scale: 0.95 }}
                     whileTap={{ scale: 0.95 }}
-                    className={`w-full sm:w-auto ${button.primary ? 
-                      "bg-gray-800 text-white px-6 py-3 rounded-md font-medium" :
-                      "bg-transparent text-gray-800 px-6 py-3 rounded-md font-medium border border-black"
+                    className={`w-full sm:w-auto backdrop-blur-md ${button.primary ? 
+                      "bg-gray-900/90 dark:bg-gray-700/90 text-white px-6 py-3 rounded-md font-medium shadow-lg" :
+                      "bg-white/30 dark:bg-gray-800/30 text-gray-900 dark:text-gray-100 px-6 py-3 rounded-md font-medium border border-gray-300/50 dark:border-gray-600/50 shadow-lg"
                     }`}
                   >
                     {button.text}
@@ -147,7 +146,7 @@ const HeroSection = () => {
                   target="_blank"
                   rel="noopener noreferrer"
                   whileHover={{ scale: 1.1 }}
-                  className="text-gray-600 hover:text-gray-900"
+                  className="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white backdrop-blur-md bg-white/20 dark:bg-gray-800/20 p-2 rounded-full shadow-lg border border-gray-200/20 dark:border-gray-700/20"
                 >
                   {link.icon === 'github' && <FaGithub className="w-6 h-6" />}
                   {link.icon === 'linkedin' && <FaLinkedin className="w-6 h-6" />}

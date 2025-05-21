@@ -8,7 +8,6 @@ import { useGetAllProjectQuery } from '@/components/Redux/features/projects/proj
 import { IProject } from '@/components/Types/project.type';
 
 const ProjectList = () => {
-
   const { data: projectData, isLoading, isError } = useGetAllProjectQuery(undefined);
   const projects = projectData?.data;
 
@@ -23,31 +22,33 @@ const ProjectList = () => {
   };
 
   return (
-    <div className="container mx-auto px-4 sm:px-4 lg:px-4 py-12">
-      <motion.h2 
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="text-3xl sm:text-4xl font-bold text-gray-800 mb-8 "
-      >
-      Projects
-      </motion.h2>
-      <motion.div
-        initial="hidden"
-        animate="visible"
-        variants={containerVariants}
-        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-3 lg:gap-4"
-      >
-        {projects?.slice(0, 4).map((project: IProject) => (
-          <ProjectCard key={project.id} project={project} />
-        ))}
-      </motion.div>
-      <div className='flex justify-center items-center pt-4'>
-      <motion.a
-        href="/project"
-        className=" mt-4 px-4 py-2 border border-gray-800 text-black rounded-md hover:bg-gray-700 transition-colors text-base font-semibold hover:text-white duration-300  cursor-pointer "
-      >
-        <span>More Projects</span>
-      </motion.a>
+    <div className="relative min-h-screen bg-white/40 dark:bg-gray-900/40 backdrop-blur-2xl">
+      <div className="container mx-auto px-4 sm:px-4 lg:px-4 py-12 relative z-10">
+        <motion.h2 
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white mb-8"
+        >
+          Projects
+        </motion.h2>
+        <motion.div
+          initial="hidden"
+          animate="visible"
+          variants={containerVariants}
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-3 lg:gap-4"
+        >
+          {projects?.slice(0, 4).map((project: IProject) => (
+            <ProjectCard key={project.id} project={project} />
+          ))}
+        </motion.div>
+        <div className='flex justify-center items-center pt-4'>
+          <motion.a
+            href="/project"
+            className="mt-4 px-6 py-3 bg-white/30 dark:bg-gray-800/30 text-gray-900 dark:text-white rounded-md font-medium border border-gray-300/50 dark:border-gray-600/50 shadow-lg hover:bg-gray-100/50 dark:hover:bg-gray-700/50 transition-all duration-300 backdrop-blur-md"
+          >
+            <span>More Projects</span>
+          </motion.a>
+        </div>
       </div>
     </div>
   );

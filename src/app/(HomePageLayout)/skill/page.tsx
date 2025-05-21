@@ -1,4 +1,5 @@
-import SkillsList from '@/components/Modules/HomePage/SkillsList'
+
+import SkillPages from '@/components/Modules/Skill/SkillPages'
 import { Metadata } from 'next'
 import React from 'react'
 
@@ -11,7 +12,7 @@ export const metadata : Metadata = {
 const SkillPage = () => {
   return (
     <div className='pt-16'>
-      <SkillsList />
+      <SkillPages />
     </div>
   )
 }
