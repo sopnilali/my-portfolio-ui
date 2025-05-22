@@ -44,7 +44,7 @@ const heroData = {
 
 const HeroSection = () => {
   return (
-    <div className="lg:min-h-screen md:min-h-[80vh] flex items-center justify-center bg-white dark:bg-gray-900/40 backdrop-blur-2xl pt-16 relative">
+    <div className=" md:min-h-[90vh] sm:min-h-[80vh] flex items-center justify-center bg-white dark:bg-gray-900/40 backdrop-blur-2xl pt-16 relative">
       <div className="container mx-auto px-4 sm:px-4 lg:px-4 relative z-20">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
           {/* Hero Image */}

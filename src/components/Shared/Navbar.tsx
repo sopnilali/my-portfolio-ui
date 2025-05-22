@@ -65,6 +65,7 @@ const Navbar = () => {
                 </svg>
               )}
             </motion.button>
+            <ThemeToggle />
           </div>
         </div>
       </div>
@@ -79,7 +80,7 @@ const Navbar = () => {
             variants={menuVariants}
             transition={{ duration: 0.3, ease: 'easeInOut' }}
           >
-            <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+            <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 min-h-screen dark:bg-gray-900 bg-white ">
               <motion.button
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.95 }}
@@ -97,7 +98,6 @@ const Navbar = () => {
               <MobileNavLink href="/blog" label="Blog" onClick={() => setIsMenuOpen(false)} />
               <MobileNavLink href="/about" label="About" onClick={() => setIsMenuOpen(false)} />
               <MobileNavLink href="/contact" label="Contact" onClick={() => setIsMenuOpen(false)} />
-              <ThemeToggle />
             </div>
           </motion.div>
         )}
