@@ -33,27 +33,27 @@ const BlogPages = () => {
 
     if (isLoading) {
         return (
-            <div className="min-h-screen flex items-center justify-center">
-                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-gray-900"></div>
+            <div className="min-h-screen flex items-center justify-center bg-white dark:bg-gray-900/70 backdrop-blur-md">
+                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-gray-800 dark:border-gray-200"></div>
             </div>
         )
     }
 
     if (isError || !blogs?.data) {
         return (
-            <div className="min-h-screen flex items-center justify-center">
-                <h1 className="text-2xl text-red-600">Error loading blogs</h1>
+            <div className="min-h-screen flex items-center justify-center bg-white dark:bg-gray-900/70 backdrop-blur-md">
+                <h1 className="text-2xl text-red-500 dark:text-red-300">Error loading blogs</h1>
             </div>
         )
     }
 
     return (
-        <div className="container mx-auto px-4 py-20">
+        <div className="px-4 py-20 dark:bg-gray-900/40 bg-white backdrop-blur-2xl">
             <motion.h2 
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
-                className="text-4xl font-bold mb-12 text-center"
+                className="text-4xl font-bold mb-12 text-center text-gray-900 dark:text-white"
             >
                 Blog Posts
             </motion.h2>
@@ -61,13 +61,13 @@ const BlogPages = () => {
                 variants={containerVariants}
                 initial="hidden"
                 animate="visible"
-                className="space-y-8"
+                className="space-y-8 container mx-auto "
             >
                 {blogs.data.map((blog: any) => (
                     <motion.div
                         key={blog.id}
                         variants={itemVariants}
-                        className="border border-gray-200 rounded-lg bg-white shadow hover:shadow-lg transition-shadow duration-300 p-4 md:p-6 flex flex-col md:flex-row items-start md:items-stretch gap-6"
+                        className="border border-gray-200 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800/70 shadow hover:shadow-lg transition-shadow duration-300 p-4 md:p-6 flex flex-col md:flex-row items-start md:items-stretch gap-6"
                     >
                         <div className="w-full md:w-1/3 lg:w-1/4 flex-shrink-0">
                             <Link href={`/blog/${blog.id}`} className="block h-full">
@@ -90,12 +90,12 @@ const BlogPages = () => {
                             <div className='flex flex-col gap-2'>
                                 <Link href={`/blog/${blog.id}`}>
                                     <motion.h2
-                                        className="text-2xl font-bold mb-2 leading-snug text-gray-900 hover:text-gray-700 transition-colors duration-200"
+                                        className="text-2xl font-bold mb-2 leading-snug text-gray-900 dark:text-gray-100 hover:text-gray-700 dark:hover:text-gray-300 transition-colors duration-200"
                                     >
                                         {blog.title}
                                     </motion.h2>
                                 </Link>
-                                <div className="flex items-center text-xs text-gray-500 mb-3 space-x-2">
+                                <div className="flex items-center text-xs text-gray-500 dark:text-gray-400 mb-3 space-x-2">
                                     <span className="font-semibold uppercase tracking-wide">{blog.user.name || "Anonymous"}</span>
                                     <span>•</span>
                                     <span>
@@ -108,9 +108,9 @@ const BlogPages = () => {
                                             : ''}
                                     </span>
                                 </div>
-                                <div className="text-gray-700 text-base mb-4 line-clamp-3">
+                                <div className="text-gray-700 dark:text-gray-300 text-base mb-4 line-clamp-3">
                                     <div
-                                        className="text-gray-800"
+                                        className="text-gray-800 dark:text-gray-200"
                                         dangerouslySetInnerHTML={{
                                             __html: blog.content.length > 60 ? blog.content.substring(0, 200) + '...' : blog.content
                                         }}
@@ -121,7 +121,7 @@ const BlogPages = () => {
                                 <motion.button 
                                     whileHover={{ scale: 1.05 }}
                                     whileTap={{ scale: 0.95 }}
-                                    className="mt-2 px-5 py-2 border border-gray-800 text-black rounded hover:bg-gray-700 text-sm font-semibold hover:text-white duration-300 transition-all cursor-pointer"
+                                    className="mt-2 px-5 py-2 border border-gray-800 dark:border-gray-200 text-gray-900 dark:text-gray-100 rounded hover:bg-gray-700 dark:hover:bg-gray-600 text-sm font-semibold hover:text-white dark:hover:text-white duration-300 transition-all cursor-pointer"
                                 >
                                     Read More
                                 </motion.button>

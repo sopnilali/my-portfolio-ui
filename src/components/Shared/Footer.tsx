@@ -31,10 +31,10 @@ const Footer = () => {
       initial="hidden"
       animate="visible"
       variants={footerVariants}
-      className="bg-white/70 border-t border-gray-200 dark:border-gray-700 dark:bg-gray-900/70 backdrop-blur-md py-4 sm:py-12 lg:py-4"
+      className="bg-white border-t border-gray-200 dark:border-gray-700 dark:bg-gray-900/40 backdrop-blur-md py-4 sm:py-12 lg:py-4"
     >
-      <div className="container mx-auto px-4 sm:px-4 lg:px-4">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-12 lg:gap-16">
+      <div className=" px-4 sm:px-4 lg:px-4">
+        <div className="container mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8 sm:gap-12 lg:gap-16">
           {/* Brand Section */}
           <div className="space-y-4">
             <motion.h3

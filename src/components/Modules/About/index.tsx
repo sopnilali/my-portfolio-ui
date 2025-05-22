@@ -19,12 +19,12 @@ const AboutPages = () => {
     const { data: MySkills } = useGetAllSkillsQuery(undefined)
 
     return (
-        <div className="min-h-screen bg-white/70 backdrop-blur-md mt-16">
+        <div className="min-h-screen bg-white dark:bg-gray-900/40 backdrop-blur-md mt-16 transition-colors duration-500">
             <div className="container mx-auto px-4 py-16">
                 <div className="container mx-auto" data-aos="fade-up">
                     <div className="flex flex-col md:flex-row-reverse gap-8 items-center mb-12">
                         <div
-                            className="w-48 h-48 md:w-64 md:h-64 relative rounded-full overflow-hidden border-4 border-gray-200"
+                            className="w-48 h-48 md:w-64 md:h-64 relative rounded-full overflow-hidden border-4 border-gray-200 dark:border-gray-700 transition-colors duration-500"
                             data-aos="zoom-in"
                             data-aos-delay="200"
                         >
@@ -42,9 +42,9 @@ const AboutPages = () => {
                             data-aos="fade-left"
                             data-aos-delay="400"
                         >
-                            <h2 className="text-4xl font-semibold text-gray-800 mb-4">{aboutData.profile.name}</h2>
-                            <p className="text-gray-600 mb-4">{aboutData.profile.title}</p>
-                            <p className="text-gray-700">
+                            <h2 className="text-4xl font-semibold text-gray-800 dark:text-white mb-4 transition-colors duration-500">{aboutData.profile.name}</h2>
+                            <p className="text-gray-600 dark:text-gray-300 mb-4 transition-colors duration-500">{aboutData.profile.title}</p>
+                            <p className="text-gray-700 dark:text-gray-300 transition-colors duration-500">
                             {aboutData.profile.description.split('\n').map((line, index) => (
                             <React.Fragment key={index}>
                             {line}
@@ -57,21 +57,21 @@ const AboutPages = () => {
 
                     <div className="space-y-8" data-aos="fade-up" data-aos-delay="600">
                         <section>
-                            <h3 className="text-2xl font-semibold text-gray-800 mb-4" data-aos="fade-right">Professional Summary</h3>
-                            <p className="text-gray-700 leading-relaxed" data-aos="fade-up">
+                            <h3 className="text-2xl font-semibold text-gray-800 dark:text-white mb-4 transition-colors duration-500" data-aos="fade-right">Professional Summary</h3>
+                            <p className="text-gray-700 dark:text-gray-300 leading-relaxed transition-colors duration-500" data-aos="fade-up">
                                 {aboutData.professionalSummary}
                             </p>
                         </section>
 
                         <section>
-                            <h3 className="text-2xl font-semibold text-gray-800 mb-4" data-aos="fade-right">Skills & Expertise</h3>
+                            <h3 className="text-2xl font-semibold text-gray-800 dark:text-white mb-4 transition-colors duration-500" data-aos="fade-right">Skills & Expertise</h3>
                             <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
                                 {MySkills?.data?.map((skill: any, index: number) => (
                                     <div
                                         key={skill.id}
                                         data-aos="zoom-in"
                                         data-aos-delay={index * 100}
-                                        className="bg-gray-50 hover:bg-gray-200 p-4 rounded-lg text-center flex items-center justify-center gap-2 transition-all duration-300 hover:scale-105"
+                                        className="bg-gray-50 dark:bg-gray-800/70 hover:bg-gray-200 dark:hover:bg-gray-700 p-4 rounded-lg text-center flex items-center justify-center gap-2 transition-all duration-300 hover:scale-105"
                                     >
                                         <Image 
                                             src={skill.icon}
@@ -80,15 +80,15 @@ const AboutPages = () => {
                                             height={24}
                                             className="object-contain"
                                         />
-                                        <span className="text-gray-700 font-medium">{skill.name}</span>
+                                        <span className="text-gray-700 dark:text-gray-300 font-medium transition-colors duration-500">{skill.name}</span>
                                     </div>
                                 ))}
                             </div>
                         </section>
 
                         <section>
-                            <h3 className="text-2xl font-semibold text-gray-800 mb-4" data-aos="fade-right">Personal Interests</h3>
-                            <p className="text-gray-700 leading-relaxed" data-aos="fade-up">
+                            <h3 className="text-2xl font-semibold text-gray-800 dark:text-white mb-4 transition-colors duration-500" data-aos="fade-right">Personal Interests</h3>
+                            <p className="text-gray-700 dark:text-gray-300 leading-relaxed transition-colors duration-500" data-aos="fade-up">
                                 {aboutData.personalInterests}
                             </p>
                         </section>

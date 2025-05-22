@@ -9,7 +9,7 @@ export const metadata : Metadata = {
 
 const ExperiencePage = () => {
   return (
-    <div className=' container mx-auto pt-16'>
+    <div className=' pt-16'>
       <ExperienceList />
     </div>
   )
