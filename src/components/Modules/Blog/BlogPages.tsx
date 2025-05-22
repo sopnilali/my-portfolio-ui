@@ -53,9 +53,9 @@ const BlogPages = () => {
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
-                className="text-4xl font-bold mb-12 text-center text-gray-900 dark:text-white"
+                className="text-4xl font-bold mb-12 pt-10 text-gray-900 dark:text-white container mx-auto" 
             >
-                Blog Posts
+                Blogs
             </motion.h2>
             <motion.div
                 variants={containerVariants}

@@ -41,7 +41,7 @@ const BlogDetails = () => {
         <div className="px-4 py-20 bg-white dark:bg-gray-900/40 backdrop-blur-2xl ">
             {/* Blog Header */}
             <div className="mb-8 ">
-                <h1 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4 container mx-auto">
+                <h1 className="text-3xl pt-10 md:text-4xl font-bold text-gray-900 dark:text-white mb-4 container mx-auto">
                     {blog.data.title}
                 </h1>
                 <div className="flex items-center gap-4 text-sm container mx-auto">

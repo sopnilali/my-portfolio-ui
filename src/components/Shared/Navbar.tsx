@@ -97,6 +97,7 @@ const Navbar = () => {
               <MobileNavLink href="/blog" label="Blog" onClick={() => setIsMenuOpen(false)} />
               <MobileNavLink href="/about" label="About" onClick={() => setIsMenuOpen(false)} />
               <MobileNavLink href="/contact" label="Contact" onClick={() => setIsMenuOpen(false)} />
+              <ThemeToggle />
             </div>
           </motion.div>
         )}

@@ -44,7 +44,7 @@ const heroData = {
 
 const HeroSection = () => {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-white dark:bg-gray-900/40 backdrop-blur-2xl pt-16 relative">
+    <div className="lg:min-h-screen md:min-h-[80vh] flex items-center justify-center bg-white dark:bg-gray-900/40 backdrop-blur-2xl pt-16 relative">
       <div className="container mx-auto px-4 sm:px-4 lg:px-4 relative z-20">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
           {/* Hero Image */}
@@ -52,20 +52,20 @@ const HeroSection = () => {
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8 }}
-            className="relative order-first lg:order-last"
+            className="relative order-first lg:order-last pt-10"
           >
             <motion.div
               whileHover={{ scale: 0.96 }}
               transition={{ duration: 0.3 }}
-              className="relative w-full aspect-square border-4 scale-95 border-gray-200/50 dark:border-gray-700/50 rounded-full overflow-hidden shadow-[0_0_50px_rgba(0,0,0,0.2)] backdrop-blur-xl bg-white dark:bg-gray-800/20"
+              className="relative w-full aspect-square border-4 scale-95  border-gray-200/50 dark:border-gray-700/50 rounded-full overflow-hidden shadow-[0_0_50px_rgba(0,0,0,0.2)] backdrop-blur-xl bg-white dark:bg-gray-800/20"
             >
               <Image
                 src={heroData.image.src}
                 alt={heroData.image.alt}
-                className="object-cover"
+                className="object-cover "
                 fill
               />
-              <div className="absolute inset-0 bg-gradient-radial from-transparent via-transparent to-orange-500/20 pointer-events-none" />
+            
             </motion.div>
           </motion.div>
 
