@@ -28,7 +28,7 @@ const ContactForm = () => {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-white dark:bg-gray-900/70 backdrop-blur-md py-20">
+    <div className="min-h-screen flex items-center justify-center bg-white dark:bg-gray-900/40 backdrop-blur-md py-20">
       <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}

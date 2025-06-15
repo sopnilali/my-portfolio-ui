@@ -18,7 +18,7 @@ const LayoutWraper = ({ children }: { children: React.ReactNode }) => {
         <div className="relative min-h-screen">
             {/* Animated gradient background */}
             <div className="fixed inset-0 -z-10">
-                <div className="absolute inset-0 dark:from-gray-900 dark:via-gray-700 dark:to-gray-800 animate-gradient transition-colors duration-700" 
+                <div className="absolute inset-0 dark:from-gray-900 dark:via-gray-700 dark:to-gray-800 animate-gradient transition-colors duration-700"
                     style={{
                         backgroundSize: '300% 300%',
                         animation: 'gradient 15s ease infinite',
@@ -28,9 +28,10 @@ const LayoutWraper = ({ children }: { children: React.ReactNode }) => {
             </div>
 
             {/* Main content */}
-            <div className="relative z-10">
+            <div className="relative z-10 ">
                 <Navbar />
                 {children}
+
                 <Footer />
             </div>
         </div>

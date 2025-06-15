@@ -126,7 +126,7 @@ const BlogList = () => {
                             </div>
                         </motion.div>
                     ))}
-                    <div className='flex justify-center items-center'>
+                    <div className='flex justify-center items-center py-4'>
                         <Link href="/blog" className="items-center border border-gray-800 dark:border-gray-200 text-gray-900 dark:text-gray-100 rounded-md px-4 py-2 hover:bg-gray-700 dark:hover:bg-gray-600 transition-colors text-base font-semibold hover:text-white dark:hover:text-white duration-300 cursor-pointer">
                             Learn More
                         </Link>

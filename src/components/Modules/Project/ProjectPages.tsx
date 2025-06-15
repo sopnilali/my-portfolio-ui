@@ -55,23 +55,13 @@ const ProjectPages = () => {
           Projects
         </motion.h2>
         <motion.div
-          variants={containerVariants}
           initial="hidden"
           animate="visible"
+          variants={containerVariants}
           className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-3 lg:gap-4"
         >
-          {projects?.map((project: IProject) => (
-            <motion.div
-              key={project.id}
-              variants={itemVariants}
-              whileHover={{
-                scale: 1.02,
-                transition: { duration: 0.2 }
-              }}
-              className="bg-white/70 dark:bg-gray-800/70 backdrop-blur-md rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-500 border border-gray-200/20 dark:border-gray-700/20 hover:border-gray-300/30 dark:hover:border-gray-600/30"
-            >
-              <ProjectCard project={project} />
-            </motion.div>
+          {projects?.slice(0, 4).map((project: IProject) => (
+            <ProjectCard key={project.id} project={project} />
           ))}
         </motion.div>
       </div>

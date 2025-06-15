@@ -42,7 +42,7 @@ const ProjectDetails = () => {
 
     return (
         <>
-            <div className="min-h-screen bg-white dark:bg-gray-900/70 backdrop-blur-md pt-20 transition-colors duration-500">
+            <div className="min-h-screen bg-white  dark:bg-gray-900/40 backdrop-blur-md pt-20 transition-colors duration-500">
                 <div className="container mx-auto px-4 sm:px-4 lg:px-4 py-12">
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
