@@ -18,7 +18,7 @@ const heroData = {
     },
     {
       text: <span className='flex items-center gap-2'>{<FaDownload />} Resume</span>, 
-      link: "https://drive.google.com/uc?export=download&id=1jSi87WlPbI0zkfuxcqnexH3eRSWwDstC",
+      link: "https://drive.google.com/uc?export=download&id=1L2ebZpERI-9CACQQUkvZUEW0p_rFkdiI",
       primary: false
     }
   ],
