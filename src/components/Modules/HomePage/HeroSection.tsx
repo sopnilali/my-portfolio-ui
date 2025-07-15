@@ -4,7 +4,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import Image from 'next/image';
-import { FaFacebook, FaGithub, FaLinkedin, FaInstagram, FaTwitter, FaDownload } from 'react-icons/fa';
+import { FaFacebook, FaGithub, FaLinkedin, FaInstagram, FaTwitter, FaDownload, FaFilePdf } from 'react-icons/fa';
 
 const heroData = {
   name: "Md. Abdul Adud",
@@ -18,12 +18,17 @@ const heroData = {
     },
     {
       text: <span className='flex items-center gap-2'>{<FaDownload />} Resume</span>, 
-      link: "https://drive.google.com/uc?export=download&id=1L2ebZpERI-9CACQQUkvZUEW0p_rFkdiI",
+      link: "https://drive.google.com/drive/folders/1vWfEtq0rSp613hx5l8rwE4flmtPgWw9W",
+      primary: false
+    },
+    {
+      text: <span className='flex items-center gap-2'>{<FaFilePdf />} CV</span>, 
+      link: "https://drive.google.com/file/d/1aMkOhyJ55NJSuNPYOLyxmBLZpMOVSxUV/view",
       primary: false
     }
   ],
   image: {
-    src: "https://my-new-portfolio-sepia-three.vercel.app/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fheroimg.97a18ef2.png&w=1080&q=75",
+    src: "https://res.cloudinary.com/dbebxi5vg/image/upload/v1752128122/documents/obkaer3eaq1u8fscapcl.jpg",
     alt: "Md. Abdul Adud"
   },
   socialLinks: [
