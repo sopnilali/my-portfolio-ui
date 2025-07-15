@@ -37,7 +37,7 @@ const SkillsList = () => {
                     variants={containerVariants}
                     initial="hidden"
                     animate="visible"
-                    className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-4"
+                    className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-6 gap-4"
                 >
                     {skills?.data?.map((skill: any, index: any) => (
                         <motion.div
@@ -48,20 +48,19 @@ const SkillsList = () => {
                                 transition: { duration: 0.2 }
                             }}
                             whileTap={{ scale: 0.95 }}
-                            className="bg-white/70 dark:bg-gray-800/70 backdrop-blur-md rounded-xl p-4 shadow-lg hover:shadow-xl transition-all duration-300 flex flex-col items-center justify-center aspect-square cursor-pointer border border-gray-200/20 dark:border-gray-700/20"
+                            className="bg-white/70 dark:bg-gray-800/70 backdrop-blur-md rounded-xl p-2 sm:p-3 md:p-4 shadow-lg hover:shadow-xl transition-all duration-300 flex flex-row items-center justify-between gap-3 sm:gap-4 cursor-pointer border border-gray-200/20 dark:border-gray-700/20"
                         >
-                            <div className="flex flex-col items-center justify-center h-full">
+                            <div className="relative aspect-square w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12">
                                 <Image 
                                     src={skill.icon}
                                     alt={skill.name}
-                                    width={100}
-                                    height={100}
-                                    className="mb-2 transition-transform duration-300 hover:scale-110"
+                                    fill
+                                    className="object-contain transition-transform duration-300 hover:scale-110"
                                 />
-                                <h3 className="text-xs sm:text-sm font-medium text-gray-900 dark:text-white text-center">
-                                    {skill.name}
-                                </h3>
                             </div>
+                            <h3 className="text-sm sm:text-base font-medium text-gray-900 dark:text-white text-left w-full">
+                                {skill.name}
+                            </h3>
                         </motion.div>
                     ))}
                 </motion.div>

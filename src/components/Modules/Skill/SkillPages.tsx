@@ -66,20 +66,18 @@ const SkillPages = () => {
                                 transition: { duration: 0.2 }
                             }}
                             whileTap={{ scale: 0.95 }}
-                            className="bg-white/70 dark:bg-gray-800/70 backdrop-blur-md rounded-xl p-4 shadow-lg hover:shadow-xl transition-all duration-500 flex flex-col items-center justify-center aspect-square cursor-pointer border border-gray-200/20 dark:border-gray-700/20 hover:border-gray-300/30 dark:hover:border-gray-600/30"
+                            className="bg-white/70 dark:bg-gray-800/70 backdrop-blur-md rounded-xl p-4 shadow-lg hover:shadow-xl transition-all duration-500 flex flex-col justify-between items-center h-full aspect-square cursor-pointer border border-gray-200/20 dark:border-gray-700/20 hover:border-gray-300/30 dark:hover:border-gray-600/30"
                         >
-                            <div className="flex flex-col items-center justify-center h-full">
-                                <Image 
-                                    src={skill.icon}
-                                    alt={skill.name}
-                                    width={100}
-                                    height={100}
-                                    className="mb-2 transition-all duration-500 hover:scale-110 filter dark:brightness-90"
-                                />
-                                <h3 className="text-xs sm:text-sm font-medium text-gray-900 dark:text-white text-center transition-colors duration-500">
-                                    {skill.name}
-                                </h3>
-                            </div>
+                            <Image 
+                                src={skill.icon}
+                                alt={skill.name}
+                                width={100}
+                                height={100}
+                                className="mb-2 transition-all duration-500 hover:scale-110 filter dark:brightness-90"
+                            />
+                            <h3 className="text-xs sm:text-xs font-medium text-gray-900 dark:text-white text-center transition-colors duration-500 mt-2">
+                                {skill.name}
+                            </h3>
                         </motion.div>
                     ))}
                 </motion.div>
