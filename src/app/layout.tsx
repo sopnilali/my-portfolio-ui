@@ -28,6 +28,13 @@ export default function RootLayout({
     <html lang="en"
     style={{scrollBehavior:"smooth"}}
     >
+      <head>
+        <link rel="canonical" href="https://mdabduladudui.vercel.app/" />
+        <link rel="sitemap" href="/sitemap.xml" />
+        <link rel="robots" href="/robots.txt" />
+        <link rel="alternate" href="https://mdabduladudui.vercel.app/" hrefLang="en" />
+        <meta name="google-site-verification" content="WnuKNSfP5eonYyUBMKSlpMVSH8c58PelG3v59B9mFCQ" />
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
