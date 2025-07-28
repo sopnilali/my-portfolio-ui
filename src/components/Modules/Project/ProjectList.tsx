@@ -37,7 +37,7 @@ const ProjectList = () => {
           variants={containerVariants}
           className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-3 lg:gap-4"
         >
-          {projects?.slice(0, 4).map((project: IProject) => (
+          {projects?.slice(0, 3).map((project: IProject) => (
             <ProjectCard key={project.id} project={project} />
           ))}
         </motion.div>
