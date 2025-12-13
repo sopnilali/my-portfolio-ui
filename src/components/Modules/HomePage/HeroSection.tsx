@@ -4,7 +4,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import Image from 'next/image';
-import { FaFacebook, FaGithub, FaLinkedin, FaInstagram, FaTwitter, FaDownload, FaFilePdf } from 'react-icons/fa';
+import { FaFacebook, FaGithub, FaLinkedin, FaInstagram, FaTwitter, FaDownload, FaFilePdf, FaArrowAltCircleRight } from 'react-icons/fa';
 
 const heroData = {
   name: "Md. Abdul Adud",
@@ -12,23 +12,23 @@ const heroData = {
   description: "I am a web developer focused on building scalable, maintainable, and high-quality web applications. . I have a deep love for learning and always strive to improve my skills.",
   buttons: [
     {
-      text: "Contact Me",
+      text: <span className='flex items-center gap-2'>{<FaArrowAltCircleRight />}Contact Me</span>,
       link: "/contact",
       primary: true
     },
     {
-      text: <span className='flex items-center gap-2'>{<FaDownload />} Resume</span>, 
+      text: <span className='flex items-center gap-2'>{<FaFilePdf />} Resume</span>, 
       link: "https://drive.google.com/drive/folders/1vWfEtq0rSp613hx5l8rwE4flmtPgWw9W",
       primary: false
     },
     {
       text: <span className='flex items-center gap-2'>{<FaFilePdf />} CV</span>, 
-      link: "https://drive.google.com/file/d/1aMkOhyJ55NJSuNPYOLyxmBLZpMOVSxUV/view",
+      link: "https://drive.google.com/drive/folders/1GJG5ksMd4glEUwPrbSJQwVRm8iRjmD6D",
       primary: false
     }
   ],
   image: {
-    src: "https://res.cloudinary.com/dbebxi5vg/image/upload/v1752128122/documents/obkaer3eaq1u8fscapcl.jpg",
+    src: "https://i.postimg.cc/MKD6gcRS/Whats-App-Image-2025-12-13-at-19-07-19-fb8f2939.png",
     alt: "Md. Abdul Adud"
   },
   socialLinks: [
