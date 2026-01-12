@@ -1,11 +1,11 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import Image from 'next/image';
 import { FaFacebook, FaGithub, FaLinkedin, FaInstagram, FaTwitter, FaDownload, FaFilePdf, FaArrowAltCircleRight } from 'react-icons/fa';
-
+import { useGetAllAboutQuery } from '@/components/Redux/features/about/aboutapi';
 const heroData = {
   name: "Md. Abdul Adud",
   title: "Full Stack Developer",
@@ -48,6 +48,13 @@ const heroData = {
 };
 
 const HeroSection = () => {
+  const [imageLoading, setImageLoading] = useState(true);
+  const { data: aboutData, isLoading, isFetching } = useGetAllAboutQuery(undefined);
+  const about = aboutData?.data[0];
+  const isDataLoading = isLoading || isFetching;
+
+
+
   return (
     <div className=" md:min-h-[90vh] sm:min-h-[80vh] flex items-center justify-center bg-white dark:bg-gray-900/40 backdrop-blur-2xl pt-16 relative">
       <div className="container mx-auto px-4 sm:px-4 lg:px-4 relative z-20">
@@ -64,13 +71,30 @@ const HeroSection = () => {
               transition={{ duration: 0.3 }}
               className="relative w-full aspect-square border-4 scale-95  border-gray-200/50 dark:border-gray-700/50 rounded-full overflow-hidden shadow-[0_0_50px_rgba(0,0,0,0.2)] backdrop-blur-xl bg-white dark:bg-gray-800/20"
             >
-              <Image
-                src={heroData.image.src}
-                alt={heroData.image.alt}
-                className="object-cover "
-                fill
-              />
-            
+              {/* Image Skeleton Loader */}
+              {(isDataLoading || imageLoading) && (
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  className="absolute inset-0 bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 dark:from-gray-700 dark:via-gray-600 dark:to-gray-700 animate-pulse"
+                >
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent animate-shimmer" />
+                </motion.div>
+              )}
+              
+              {about?.imageUrl && (
+                <Image
+                  src={about.imageUrl}
+                  alt={about?.nameTitle || 'Profile'}
+                  className={`object-cover transition-opacity duration-500 ${
+                    imageLoading ? 'opacity-0' : 'opacity-100'
+                  }`}
+                  fill
+                  onLoad={() => setImageLoading(false)}
+                  onError={() => setImageLoading(false)}
+                />
+              )}
             </motion.div>
           </motion.div>
 
@@ -81,42 +105,65 @@ const HeroSection = () => {
             transition={{ duration: 0.8 }}
             className="space-y-6 rounded-2xl "
           >
-            <motion.h1 
-              className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-gray-900 to-gray-700 dark:from-white dark:to-gray-300"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 }}
-            >
-              {heroData.name.split('').map((char, index) => (
-                <motion.span
-                  key={index}
-                  initial={{ opacity: 0, y: 50 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{
-                    duration: 0.5,
-                    delay: index * 0.1,
-                  }}
-                >
-                  {char}
-                </motion.span>
-              ))}
-            </motion.h1>
-            <motion.h2 
-              className="text-xl sm:text-2xl md:text-3xl font-semibold text-gray-800 dark:text-gray-200"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4 }}
-            >
-              {heroData.title}
-            </motion.h2>
-            <motion.p 
-              className="text-base sm:text-lg text-gray-700 dark:text-gray-300"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.6 }}
-            >
-              {heroData.description}
-            </motion.p>
+            {/* Name Title */}
+            {isDataLoading ? (
+              <div className="space-y-3">
+                <div className="h-12 sm:h-14 md:h-16 lg:h-20 w-3/4 bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 dark:from-gray-700 dark:via-gray-600 dark:to-gray-700 rounded-lg animate-pulse" />
+              </div>
+            ) : (
+              <motion.h1 
+                className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-gray-900 to-gray-700 dark:from-white dark:to-gray-300"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2 }}
+              >
+                {about?.nameTitle?.split('').map((char: string, index: number) => (
+                  <motion.span
+                    key={index}
+                    initial={{ opacity: 0, y: 50 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{
+                      duration: 0.5,
+                      delay: index * 0.1,
+                    }}
+                  >
+                    {char}
+                  </motion.span>
+                ))}
+              </motion.h1>
+            )}
+            
+            {/* Profession Name */}
+            {isDataLoading ? (
+              <div className="h-8 sm:h-10 md:h-12 w-2/3 bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 dark:from-gray-700 dark:via-gray-600 dark:to-gray-700 rounded-lg animate-pulse" />
+            ) : (
+              <motion.h2 
+                className="text-xl sm:text-2xl md:text-3xl font-semibold text-gray-800 dark:text-gray-200"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.4 }}
+              >
+                {about?.professonName}
+              </motion.h2>
+            )}
+            
+            {/* Description */}
+            {isDataLoading ? (
+              <div className="space-y-2">
+                <div className="h-4 w-full bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 dark:from-gray-700 dark:via-gray-600 dark:to-gray-700 rounded animate-pulse" />
+                <div className="h-4 w-5/6 bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 dark:from-gray-700 dark:via-gray-600 dark:to-gray-700 rounded animate-pulse" />
+                <div className="h-4 w-4/6 bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 dark:from-gray-700 dark:via-gray-600 dark:to-gray-700 rounded animate-pulse" />
+              </div>
+            ) : (
+              <motion.p 
+                className="text-base sm:text-lg text-gray-700 dark:text-gray-300"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.6 }}
+              >
+                {about?.shortdescription}
+              </motion.p>
+            )}
             <motion.div 
               className="flex flex-col sm:flex-row gap-4"
               initial={{ opacity: 0, y: 20 }}

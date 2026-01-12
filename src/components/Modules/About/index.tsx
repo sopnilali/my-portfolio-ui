@@ -3,6 +3,7 @@
 import React from 'react';
 import Image from 'next/image';
 import { useGetAllSkillsQuery } from '@/components/Redux/features/skill/skillApi';
+import { useGetAllAboutQuery } from '@/components/Redux/features/about/aboutapi';
 
 const aboutData = {
     profile: {
@@ -17,6 +18,9 @@ const aboutData = {
 
 const AboutPages = () => {
     const { data: MySkills } = useGetAllSkillsQuery(undefined)
+    const { data: aboutDatas, isLoading, isFetching } = useGetAllAboutQuery(undefined);
+    const about = aboutDatas?.data[0];
+
 
     return (
         <div className="min-h-screen bg-white dark:bg-gray-900/40 backdrop-blur-md mt-16 transition-colors duration-500">
@@ -29,8 +33,8 @@ const AboutPages = () => {
                             data-aos-delay="200"
                         >
                             <Image
-                                src={aboutData.profile.image}
-                                alt="Profile"
+                                src={about?.imageUrl}
+                                alt={about?.nameTitle || 'Profile'}
                                 fill
                                 className="object-cover"
                                 priority
@@ -45,12 +49,12 @@ const AboutPages = () => {
                             <h2 className="text-4xl font-semibold text-gray-800 dark:text-white mb-4 transition-colors duration-500">{aboutData.profile.name}</h2>
                             <p className="text-gray-600 dark:text-gray-300 mb-4 transition-colors duration-500">{aboutData.profile.title}</p>
                             <p className="text-gray-700 dark:text-gray-300 transition-colors duration-500">
-                            {aboutData.profile.description.split('\n').map((line, index) => (
-                            <React.Fragment key={index}>
-                            {line}
-                            <br />
-                            </React.Fragment>
-                            ))}
+                                {about?.shortdescription.split('\n').map((line: string, index: number) => (
+                                    <React.Fragment key={index}>
+                                        {line}
+                                        <br />
+                                    </React.Fragment>
+                                ))}
                             </p>
                         </div>
                     </div>
@@ -73,7 +77,7 @@ const AboutPages = () => {
                                         data-aos-delay={index * 100}
                                         className="bg-gray-50 dark:bg-gray-800/70 hover:bg-gray-200 dark:hover:bg-gray-700 p-4 rounded-lg text-center flex items-center justify-center gap-2 transition-all duration-300 hover:scale-105"
                                     >
-                                        <Image 
+                                        <Image
                                             src={skill.icon}
                                             alt={skill.name}
                                             width={24}

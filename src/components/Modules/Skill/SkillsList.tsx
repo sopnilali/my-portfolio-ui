@@ -5,7 +5,8 @@ import { motion } from 'framer-motion';
 import Image from 'next/image';
 
 const SkillsList = () => {
-    const {data:skills, isLoading, isError} = useGetAllSkillsQuery(undefined);
+    const {data:skills, isLoading, isError, isFetching} = useGetAllSkillsQuery(undefined);
+    const isDataLoading = isLoading || isFetching;
 
     const containerVariants = {
         hidden: { opacity: 0 },
@@ -21,6 +22,16 @@ const SkillsList = () => {
         hidden: { opacity: 0, y: 20 },
         visible: { opacity: 1, y: 0 }
     };
+
+    // Skeleton loader for skill card
+    const SkillCardSkeleton = () => (
+        <div className="bg-white/70 dark:bg-gray-800/70 backdrop-blur-md rounded-xl p-2 sm:p-3 md:p-4 shadow-md border border-gray-200/20 dark:border-gray-700/20 flex flex-row items-center justify-between gap-3 sm:gap-4 animate-pulse">
+            <div className="relative aspect-square w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 dark:from-gray-700 dark:via-gray-600 dark:to-gray-700 rounded">
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent animate-shimmer" />
+            </div>
+            <div className="h-4 w-20 bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 dark:from-gray-700 dark:via-gray-600 dark:to-gray-700 rounded" />
+        </div>
+    );
 
     return (
         <div className="relative bg-white dark:bg-gray-900/40 backdrop-blur-2xl">
@@ -39,7 +50,14 @@ const SkillsList = () => {
                     animate="visible"
                     className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-6 gap-4"
                 >
-                    {skills?.data?.map((skill: any, index: any) => (
+                    {isDataLoading ? (
+                        <>
+                            {[...Array(12)].map((_, index) => (
+                                <SkillCardSkeleton key={index} />
+                            ))}
+                        </>
+                    ) : (
+                        skills?.data?.map((skill: any, index: any) => (
                         <motion.div
                             key={skill.name}
                             variants={itemVariants}
@@ -61,7 +79,8 @@ const SkillsList = () => {
                                 {skill.name}
                             </h3>
                         </motion.div>
-                    ))}
+                        ))
+                    )}
                 </motion.div>
             </div>
         </div>

@@ -6,7 +6,8 @@ import './blog.css'
 import { useGetAllBlogQuery } from '@/components/Redux/features/blog/blogApi'
 
 const BlogList = () => {
-    const { data: blogs, isLoading, isError } = useGetAllBlogQuery(undefined)
+    const { data: blogs, isLoading, isError, isFetching } = useGetAllBlogQuery(undefined)
+    const isDataLoading = isLoading || isFetching;
 
     const containerVariants = {
         hidden: { opacity: 0 },
@@ -29,13 +30,28 @@ const BlogList = () => {
         }
     }
 
-    if (isLoading) {
-        return (
-            <div className="min-h-screen flex items-center justify-center">
-                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-gray-900 dark:border-gray-100"></div>
+    // Skeleton loader for blog card
+    const BlogCardSkeleton = () => (
+        <div className="border border-gray-200 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800/70 shadow p-4 md:p-6 flex flex-col md:flex-row items-start md:items-stretch gap-6 animate-pulse">
+            <div className="w-full md:w-1/3 lg:w-1/4 flex-shrink-0">
+                <div className="relative w-full h-56 md:h-full rounded-lg overflow-hidden bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 dark:from-gray-700 dark:via-gray-600 dark:to-gray-700">
+                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent animate-shimmer" />
+                </div>
             </div>
-        )
-    }
+            <div className="flex-1 flex flex-col justify-between py-2">
+                <div className='flex flex-col gap-2'>
+                    <div className="h-8 w-3/4 bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 dark:from-gray-700 dark:via-gray-600 dark:to-gray-700 rounded mb-2" />
+                    <div className="h-4 w-1/3 bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 dark:from-gray-700 dark:via-gray-600 dark:to-gray-700 rounded mb-3" />
+                    <div className="space-y-2">
+                        <div className="h-4 w-full bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 dark:from-gray-700 dark:via-gray-600 dark:to-gray-700 rounded" />
+                        <div className="h-4 w-5/6 bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 dark:from-gray-700 dark:via-gray-600 dark:to-gray-700 rounded" />
+                        <div className="h-4 w-4/6 bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 dark:from-gray-700 dark:via-gray-600 dark:to-gray-700 rounded" />
+                    </div>
+                </div>
+                <div className="h-9 w-24 bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 dark:from-gray-700 dark:via-gray-600 dark:to-gray-700 rounded mt-2" />
+            </div>
+        </div>
+    )
 
     if (isError || !blogs?.data) {
         return (
@@ -62,7 +78,14 @@ const BlogList = () => {
                     animate="visible"
                     className="space-y-8 container mx-auto"
                 >
-                    {blogs?.data?.slice(0, 3).map((blog: any) => (
+                    {isDataLoading ? (
+                        <>
+                            <BlogCardSkeleton />
+                            <BlogCardSkeleton />
+                            <BlogCardSkeleton />
+                        </>
+                    ) : (
+                        blogs?.data?.slice(0, 3).map((blog: any) => (
                         <motion.div
                             key={blog.id}
                             variants={itemVariants}
@@ -125,7 +148,8 @@ const BlogList = () => {
                                 </Link>
                             </div>
                         </motion.div>
-                    ))}
+                        ))
+                    )}
                     <div className='flex justify-center items-center py-4'>
                         <Link href="/blog" className="items-center border border-gray-800 dark:border-gray-200 text-gray-900 dark:text-gray-100 rounded-md px-4 py-2 hover:bg-gray-700 dark:hover:bg-gray-600 transition-colors text-base font-semibold hover:text-white dark:hover:text-white duration-300 cursor-pointer">
                             Learn More

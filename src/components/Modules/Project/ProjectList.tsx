@@ -8,8 +8,9 @@ import { useGetAllProjectQuery } from '@/components/Redux/features/projects/proj
 import { IProject } from '@/components/Types/project.type';
 
 const ProjectList = () => {
-  const { data: projectData, isLoading, isError } = useGetAllProjectQuery(undefined);
+  const { data: projectData, isLoading, isError, isFetching } = useGetAllProjectQuery(undefined);
   const projects = projectData?.data;
+  const isDataLoading = isLoading || isFetching;
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -20,6 +21,34 @@ const ProjectList = () => {
       }
     }
   };
+
+  // Skeleton loader for project card
+  const ProjectCardSkeleton = () => (
+    <div className="bg-white/70 dark:bg-gray-800/70 backdrop-blur-md rounded-xl overflow-hidden shadow-lg border border-gray-200/20 dark:border-gray-700/20 animate-pulse">
+      <div className="relative h-48 w-full bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 dark:from-gray-700 dark:via-gray-600 dark:to-gray-700">
+        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent animate-shimmer" />
+      </div>
+      <div className="flex flex-col flex-1 justify-between p-6">
+        <div>
+          <div className="h-6 w-3/4 bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 dark:from-gray-700 dark:via-gray-600 dark:to-gray-700 rounded mb-2" />
+          <div className="h-4 w-1/2 bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 dark:from-gray-700 dark:via-gray-600 dark:to-gray-700 rounded mb-4" />
+          <div className="flex flex-wrap gap-2 mb-4">
+            <div className="h-6 w-16 bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 dark:from-gray-700 dark:via-gray-600 dark:to-gray-700 rounded-full" />
+            <div className="h-6 w-20 bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 dark:from-gray-700 dark:via-gray-600 dark:to-gray-700 rounded-full" />
+            <div className="h-6 w-14 bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 dark:from-gray-700 dark:via-gray-600 dark:to-gray-700 rounded-full" />
+          </div>
+        </div>
+        <div className="flex justify-between items-center pt-4">
+          <div className="flex gap-4">
+            <div className="h-5 w-5 bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 dark:from-gray-700 dark:via-gray-600 dark:to-gray-700 rounded" />
+            <div className="h-5 w-5 bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 dark:from-gray-700 dark:via-gray-600 dark:to-gray-700 rounded" />
+            <div className="h-5 w-5 bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 dark:from-gray-700 dark:via-gray-600 dark:to-gray-700 rounded" />
+          </div>
+          <div className="h-9 w-20 bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 dark:from-gray-700 dark:via-gray-600 dark:to-gray-700 rounded-lg" />
+        </div>
+      </div>
+    </div>
+  );
 
   return (
     <div className="relative bg-white dark:bg-gray-900/40 backdrop-blur-2xl">
@@ -37,9 +66,17 @@ const ProjectList = () => {
           variants={containerVariants}
           className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-3 lg:gap-4"
         >
-          {projects?.slice(0, 3).map((project: IProject) => (
-            <ProjectCard key={project.id} project={project} />
-          ))}
+          {isDataLoading ? (
+            <>
+              <ProjectCardSkeleton />
+              <ProjectCardSkeleton />
+              <ProjectCardSkeleton />
+            </>
+          ) : (
+            projects?.slice(0, 3).map((project: IProject) => (
+              <ProjectCard key={project.id} project={project} />
+            ))
+          )}
         </motion.div>
         <div className='flex justify-center items-center pt-4'>
           <motion.a
