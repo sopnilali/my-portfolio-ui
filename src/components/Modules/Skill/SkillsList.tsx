@@ -47,7 +47,8 @@ const SkillsList = () => {
                 <motion.div
                     variants={containerVariants}
                     initial="hidden"
-                    animate="visible"
+                    whileInView="visible"
+                    viewport={{ once: true, amount: 0.2 }}
                     className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-6 gap-4"
                 >
                     {isDataLoading ? (

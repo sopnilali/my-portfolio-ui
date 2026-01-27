@@ -1,7 +1,7 @@
 'use client';
 
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
+import React, { useMemo, useState } from 'react';
+import { motion, useReducedMotion } from 'framer-motion';
 import Link from 'next/link';
 import Image from 'next/image';
 import { FaFacebook, FaGithub, FaLinkedin, FaInstagram, FaTwitter, FaDownload, FaFilePdf, FaArrowAltCircleRight } from 'react-icons/fa';
@@ -49,9 +49,12 @@ const heroData = {
 
 const HeroSection = () => {
   const [imageLoading, setImageLoading] = useState(true);
+  const shouldReduceMotion = useReducedMotion();
   const { data: aboutData, isLoading, isFetching } = useGetAllAboutQuery(undefined);
   const about = aboutData?.data[0];
   const isDataLoading = isLoading || isFetching;
+
+  const nameChars = useMemo(() => about?.nameTitle?.split('') ?? [], [about?.nameTitle]);
 
 
 
@@ -61,14 +64,15 @@ const HeroSection = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
           {/* Hero Image */}
           <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8 }}
+            initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, x: 50 }}
+            whileInView={shouldReduceMotion ? { opacity: 1 } : { opacity: 1, x: 0 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.6 }}
             className="relative order-first lg:order-last pt-10"
           >
             <motion.div
-              whileHover={{ scale: 0.96 }}
-              transition={{ duration: 0.3 }}
+              whileHover={shouldReduceMotion ? undefined : { scale: 0.98 }}
+              transition={{ duration: 0.2 }}
               className="relative w-full aspect-square border-4 scale-95  border-gray-200/50 dark:border-gray-700/50 rounded-full overflow-hidden shadow-[0_0_50px_rgba(0,0,0,0.2)] backdrop-blur-xl bg-white dark:bg-gray-800/20"
             >
               {/* Image Skeleton Loader */}
@@ -100,9 +104,10 @@ const HeroSection = () => {
 
           {/* Content Section */}
           <motion.div
-            initial={{ opacity: 0, x: -50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8 }}
+            initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, x: -50 }}
+            whileInView={shouldReduceMotion ? { opacity: 1 } : { opacity: 1, x: 0 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.6 }}
             className="space-y-6 rounded-2xl "
           >
             {/* Name Title */}
@@ -113,23 +118,29 @@ const HeroSection = () => {
             ) : (
               <motion.h1 
                 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-gray-900 to-gray-700 dark:from-white dark:to-gray-300"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.2 }}
+                initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: 12 }}
+                whileInView={shouldReduceMotion ? { opacity: 1 } : { opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.6 }}
+                transition={{ delay: 0.1, duration: 0.4 }}
               >
-                {about?.nameTitle?.split('').map((char: string, index: number) => (
-                  <motion.span
-                    key={index}
-                    initial={{ opacity: 0, y: 50 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{
-                      duration: 0.5,
-                      delay: index * 0.1,
-                    }}
-                  >
-                    {char}
-                  </motion.span>
-                ))}
+                {shouldReduceMotion ? (
+                  about?.nameTitle
+                ) : (
+                  nameChars.map((char: string, index: number) => (
+                    <motion.span
+                      key={index}
+                      initial={{ opacity: 0, y: 18 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true, amount: 0.8 }}
+                      transition={{
+                        duration: 0.35,
+                        delay: Math.min(index * 0.03, 0.35),
+                      }}
+                    >
+                      {char}
+                    </motion.span>
+                  ))
+                )}
               </motion.h1>
             )}
             
@@ -139,9 +150,10 @@ const HeroSection = () => {
             ) : (
               <motion.h2 
                 className="text-xl sm:text-2xl md:text-3xl font-semibold text-gray-800 dark:text-gray-200"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.4 }}
+                initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: 10 }}
+                whileInView={shouldReduceMotion ? { opacity: 1 } : { opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.6 }}
+                transition={{ delay: 0.15, duration: 0.35 }}
               >
                 {about?.professonName}
               </motion.h2>
@@ -157,18 +169,20 @@ const HeroSection = () => {
             ) : (
               <motion.p 
                 className="text-base sm:text-lg text-gray-700 dark:text-gray-300"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.6 }}
+                initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: 10 }}
+                whileInView={shouldReduceMotion ? { opacity: 1 } : { opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.6 }}
+                transition={{ delay: 0.2, duration: 0.35 }}
               >
                 {about?.shortdescription}
               </motion.p>
             )}
             <motion.div 
               className="flex flex-col sm:flex-row gap-4"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.8 }}
+              initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: 10 }}
+              whileInView={shouldReduceMotion ? { opacity: 1 } : { opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.4 }}
+              transition={{ delay: 0.25, duration: 0.35 }}
             >
               {heroData.buttons.map((button, index) => (
                 <Link key={index} href={button.link} className="w-full sm:w-auto">
@@ -187,9 +201,10 @@ const HeroSection = () => {
             </motion.div>
             <motion.div 
               className="flex gap-4 mt-6"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 1 }}
+              initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: 10 }}
+              whileInView={shouldReduceMotion ? { opacity: 1 } : { opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.4 }}
+              transition={{ delay: 0.3, duration: 0.35 }}
             >
               {heroData.socialLinks.map((link, index) => (
                 <motion.a

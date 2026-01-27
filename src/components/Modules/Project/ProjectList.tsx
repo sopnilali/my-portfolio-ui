@@ -62,7 +62,8 @@ const ProjectList = () => {
         </motion.h2>
         <motion.div
           initial="hidden"
-          animate="visible"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.2 }}
           variants={containerVariants}
           className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-3 lg:gap-4"
         >

@@ -63,7 +63,8 @@ const ExperienceAndEducationList = () => {
                     <div className="w-full md:w-1/2 pl-0">
                         <motion.h3
                             initial={{ opacity: 0, y: -20 }}
-                            animate={{ opacity: 1, y: 0 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true, amount: 0.3 }}
                             className="text-3xl font-bold text-gray-900 dark:text-white mb-6 transition-colors duration-500"
                         >
                             Education
@@ -72,8 +73,9 @@ const ExperienceAndEducationList = () => {
                             <motion.div
                                 key={index}
                                 initial={{ opacity: 0, y: 20 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ duration: 0.5, delay: index * 0.1 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true, amount: 0.2 }}
+                                transition={{ duration: 0.45, delay: Math.min(index * 0.1, 0.3) }}
                                 className="mb-8 flex"
                             >
                                 <div className="flex-shrink-0 mr-2">
@@ -101,7 +103,8 @@ const ExperienceAndEducationList = () => {
                     <div className="w-full md:w-1/2 pl-0 md:pl-4">
                         <motion.h3
                             initial={{ opacity: 0, y: -20 }}
-                            animate={{ opacity: 1, y: 0 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true, amount: 0.3 }}
                             className="text-3xl font-bold text-gray-900 dark:text-white mb-6 transition-colors duration-500"
                         >
                             Experience
@@ -119,8 +122,9 @@ const ExperienceAndEducationList = () => {
 const TimelineItem = ({ item, index, isLast }: { item: any, index: number, isLast: boolean }) => (
     <motion.div
         initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: index * 0.1 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, amount: 0.2 }}
+        transition={{ duration: 0.45, delay: Math.min(index * 0.1, 0.3) }}
         className="mb-8 flex"
     >
         <div className="flex-shrink-0 mr-2">
