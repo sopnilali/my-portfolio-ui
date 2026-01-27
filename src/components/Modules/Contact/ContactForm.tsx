@@ -2,7 +2,6 @@
 
 import React from 'react'
 import { useForm } from 'react-hook-form'
-import { motion } from 'framer-motion'
 import { useCreateContactMutation } from '@/components/Redux/features/contact/contactApi'
 import { toast } from 'sonner'
 
@@ -30,12 +29,7 @@ const ContactForm = () => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-white dark:bg-gray-900/40 backdrop-blur-md py-20">
       <div className="container mx-auto px-4">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          className="max-w-2xl mx-auto bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8"
-        >
+        <div className="max-w-2xl mx-auto bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8">
           <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-8 text-center">Contact Me</h2>
           
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
@@ -93,16 +87,14 @@ const ContactForm = () => {
               )}
             </div>
 
-            <motion.button
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
+            <button
               type="submit"
-              className="w-full bg-gray-900 dark:bg-gray-700 text-white py-3 px-6 rounded-md font-semibold hover:bg-gray-800 dark:hover:bg-gray-600 transition-colors duration-200"
+              className="w-full bg-gray-900 dark:bg-gray-700 text-white py-3 px-6 rounded-md font-semibold hover:bg-gray-800 dark:hover:bg-gray-600 transition-colors duration-200 active:scale-[0.99]"
             >
               {isLoading ? 'Sending...' : 'Send Message'}
-            </motion.button>
+            </button>
           </form>
-        </motion.div>
+        </div>
       </div>
     </div>
   )

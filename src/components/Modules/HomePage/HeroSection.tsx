@@ -1,7 +1,6 @@
 'use client';
 
-import React, { useMemo, useState } from 'react';
-import { motion, useReducedMotion } from 'framer-motion';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { FaFacebook, FaGithub, FaLinkedin, FaInstagram, FaTwitter, FaDownload, FaFilePdf, FaArrowAltCircleRight } from 'react-icons/fa';
@@ -49,12 +48,9 @@ const heroData = {
 
 const HeroSection = () => {
   const [imageLoading, setImageLoading] = useState(true);
-  const shouldReduceMotion = useReducedMotion();
   const { data: aboutData, isLoading, isFetching } = useGetAllAboutQuery(undefined);
   const about = aboutData?.data[0];
   const isDataLoading = isLoading || isFetching;
-
-  const nameChars = useMemo(() => about?.nameTitle?.split('') ?? [], [about?.nameTitle]);
 
 
 
@@ -63,28 +59,13 @@ const HeroSection = () => {
       <div className="container mx-auto px-4 sm:px-4 lg:px-4 relative z-20">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
           {/* Hero Image */}
-          <motion.div
-            initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, x: 50 }}
-            whileInView={shouldReduceMotion ? { opacity: 1 } : { opacity: 1, x: 0 }}
-            viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 0.6 }}
-            className="relative order-first lg:order-last pt-10"
-          >
-            <motion.div
-              whileHover={shouldReduceMotion ? undefined : { scale: 0.98 }}
-              transition={{ duration: 0.2 }}
-              className="relative w-full aspect-square border-4 scale-95  border-gray-200/50 dark:border-gray-700/50 rounded-full overflow-hidden shadow-[0_0_50px_rgba(0,0,0,0.2)] backdrop-blur-xl bg-white dark:bg-gray-800/20"
-            >
+          <div className="relative order-first lg:order-last pt-10">
+            <div className="relative w-full aspect-square border-4 scale-95 border-gray-200/50 dark:border-gray-700/50 rounded-full overflow-hidden shadow-[0_0_50px_rgba(0,0,0,0.2)] backdrop-blur-xl bg-white dark:bg-gray-800/20 transition-transform duration-200 hover:scale-[0.98]">
               {/* Image Skeleton Loader */}
               {(isDataLoading || imageLoading) && (
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  className="absolute inset-0 bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 dark:from-gray-700 dark:via-gray-600 dark:to-gray-700 animate-pulse"
-                >
+                <div className="absolute inset-0 bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 dark:from-gray-700 dark:via-gray-600 dark:to-gray-700 animate-pulse">
                   <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent animate-shimmer" />
-                </motion.div>
+                </div>
               )}
               
               {about?.imageUrl && (
@@ -99,64 +80,33 @@ const HeroSection = () => {
                   onError={() => setImageLoading(false)}
                 />
               )}
-            </motion.div>
-          </motion.div>
+            </div>
+          </div>
 
           {/* Content Section */}
-          <motion.div
-            initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, x: -50 }}
-            whileInView={shouldReduceMotion ? { opacity: 1 } : { opacity: 1, x: 0 }}
-            viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 0.6 }}
-            className="space-y-6 rounded-2xl "
-          >
+          <div className="space-y-6 rounded-2xl">
             {/* Name Title */}
             {isDataLoading ? (
               <div className="space-y-3">
                 <div className="h-12 sm:h-14 md:h-16 lg:h-20 w-3/4 bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 dark:from-gray-700 dark:via-gray-600 dark:to-gray-700 rounded-lg animate-pulse" />
               </div>
             ) : (
-              <motion.h1 
+              <h1 
                 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-gray-900 to-gray-700 dark:from-white dark:to-gray-300"
-                initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: 12 }}
-                whileInView={shouldReduceMotion ? { opacity: 1 } : { opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.6 }}
-                transition={{ delay: 0.1, duration: 0.4 }}
               >
-                {shouldReduceMotion ? (
-                  about?.nameTitle
-                ) : (
-                  nameChars.map((char: string, index: number) => (
-                    <motion.span
-                      key={index}
-                      initial={{ opacity: 0, y: 18 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true, amount: 0.8 }}
-                      transition={{
-                        duration: 0.35,
-                        delay: Math.min(index * 0.03, 0.35),
-                      }}
-                    >
-                      {char}
-                    </motion.span>
-                  ))
-                )}
-              </motion.h1>
+                {about?.nameTitle}
+              </h1>
             )}
             
             {/* Profession Name */}
             {isDataLoading ? (
               <div className="h-8 sm:h-10 md:h-12 w-2/3 bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 dark:from-gray-700 dark:via-gray-600 dark:to-gray-700 rounded-lg animate-pulse" />
             ) : (
-              <motion.h2 
+              <h2 
                 className="text-xl sm:text-2xl md:text-3xl font-semibold text-gray-800 dark:text-gray-200"
-                initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: 10 }}
-                whileInView={shouldReduceMotion ? { opacity: 1 } : { opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.6 }}
-                transition={{ delay: 0.15, duration: 0.35 }}
               >
                 {about?.professonName}
-              </motion.h2>
+              </h2>
             )}
             
             {/* Description */}
@@ -167,63 +117,48 @@ const HeroSection = () => {
                 <div className="h-4 w-4/6 bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 dark:from-gray-700 dark:via-gray-600 dark:to-gray-700 rounded animate-pulse" />
               </div>
             ) : (
-              <motion.p 
+              <p 
                 className="text-base sm:text-lg text-gray-700 dark:text-gray-300"
-                initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: 10 }}
-                whileInView={shouldReduceMotion ? { opacity: 1 } : { opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.6 }}
-                transition={{ delay: 0.2, duration: 0.35 }}
               >
                 {about?.shortdescription}
-              </motion.p>
+              </p>
             )}
-            <motion.div 
+            <div 
               className="flex flex-col sm:flex-row gap-4"
-              initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: 10 }}
-              whileInView={shouldReduceMotion ? { opacity: 1 } : { opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.4 }}
-              transition={{ delay: 0.25, duration: 0.35 }}
             >
               {heroData.buttons.map((button, index) => (
                 <Link key={index} href={button.link} className="w-full sm:w-auto">
-                  <motion.button
-                    whileHover={{ scale: 0.95 }}
-                    whileTap={{ scale: 0.95 }}
+                  <button
                     className={`w-full sm:w-auto backdrop-blur-md ${button.primary ? 
                       "bg-gray-900/90 dark:bg-gray-700/90 text-white px-6 py-3 rounded-md font-medium shadow-lg" :
                       "bg-white/30 dark:bg-gray-800/30 text-gray-900 dark:text-gray-100 px-6 py-3 rounded-md font-medium border border-gray-300/50 dark:border-gray-600/50 shadow-lg"
-                    }`}
+                    } transition-transform duration-150 active:scale-95 hover:scale-[0.98]`}
                   >
                     {button.text}
-                  </motion.button>
+                  </button>
                 </Link>
               ))}
-            </motion.div>
-            <motion.div 
+            </div>
+            <div 
               className="flex gap-4 mt-6"
-              initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, y: 10 }}
-              whileInView={shouldReduceMotion ? { opacity: 1 } : { opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.4 }}
-              transition={{ delay: 0.3, duration: 0.35 }}
             >
               {heroData.socialLinks.map((link, index) => (
-                <motion.a
+                <a
                   key={index}
                   href={link.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  whileHover={{ scale: 1.1 }}
-                  className="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white backdrop-blur-md bg-white/20 dark:bg-gray-800/20 p-2 rounded-full shadow-lg border border-gray-200/20 dark:border-gray-700/20"
+                  className="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white backdrop-blur-md bg-white/20 dark:bg-gray-800/20 p-2 rounded-full shadow-lg border border-gray-200/20 dark:border-gray-700/20 transition-transform duration-150 hover:scale-110"
                 >
                   {link.icon === 'github' && <FaGithub className="w-6 h-6" />}
                   {link.icon === 'linkedin' && <FaLinkedin className="w-6 h-6" />}
                   {link.icon === 'facebook' && <FaFacebook className="w-6 h-6" />}
                   {link.icon === 'instagram' && <FaInstagram className="w-6 h-6" />}
                   {link.icon === 'twitter' && <FaTwitter className="w-6 h-6" />}
-                </motion.a>
+                </a>
               ))}
-            </motion.div>
-          </motion.div>
+            </div>
+          </div>
         </div>
       </div>
     </div>

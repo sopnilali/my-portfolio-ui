@@ -1,7 +1,6 @@
 'use client';
 
 import React from 'react';
-import { motion } from 'framer-motion';
 import { useGetAllExperienceQuery } from '@/components/Redux/features/experience/experienceApi';
 
 const ExperienceAndEducationList = () => {
@@ -61,21 +60,12 @@ const ExperienceAndEducationList = () => {
                 <div className="flex flex-col md:flex-row">
                     {/* Education Column */}
                     <div className="w-full md:w-1/2 pl-0">
-                        <motion.h3
-                            initial={{ opacity: 0, y: -20 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true, amount: 0.3 }}
-                            className="text-3xl font-bold text-gray-900 dark:text-white mb-6 transition-colors duration-500"
-                        >
+                        <h3 className="text-3xl font-bold text-gray-900 dark:text-white mb-6 transition-colors duration-500">
                             Education
-                        </motion.h3>
+                        </h3>
                         {educationData?.map((item: any, index: number) => (
-                            <motion.div
+                            <div
                                 key={index}
-                                initial={{ opacity: 0, y: 20 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true, amount: 0.2 }}
-                                transition={{ duration: 0.45, delay: Math.min(index * 0.1, 0.3) }}
                                 className="mb-8 flex"
                             >
                                 <div className="flex-shrink-0 mr-2">
@@ -96,19 +86,14 @@ const ExperienceAndEducationList = () => {
                                         <p className="text-gray-800 dark:text-gray-200 transition-colors duration-500">{item.description}</p>
                                     </div>
                                 </div>
-                            </motion.div>
+                            </div>
                         ))}
                     </div>
                     {/* Experience Column */}
                     <div className="w-full md:w-1/2 pl-0 md:pl-4">
-                        <motion.h3
-                            initial={{ opacity: 0, y: -20 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true, amount: 0.3 }}
-                            className="text-3xl font-bold text-gray-900 dark:text-white mb-6 transition-colors duration-500"
-                        >
+                        <h3 className="text-3xl font-bold text-gray-900 dark:text-white mb-6 transition-colors duration-500">
                             Experience
-                        </motion.h3>
+                        </h3>
                         {experienceInfo?.map((item: any, index: number) => (
                             <TimelineItem key={index} item={item} index={index} isLast={index === experienceInfo.length - 1} />
                         ))}
@@ -120,13 +105,7 @@ const ExperienceAndEducationList = () => {
 };
 
 const TimelineItem = ({ item, index, isLast }: { item: any, index: number, isLast: boolean }) => (
-    <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.2 }}
-        transition={{ duration: 0.45, delay: Math.min(index * 0.1, 0.3) }}
-        className="mb-8 flex"
-    >
+    <div className="mb-8 flex">
         <div className="flex-shrink-0 mr-2">
             <div className="flex items-center justify-center w-10 h-10 rounded-full bg-gray-600 dark:bg-gray-700 text-white transition-colors duration-500">
                 <div className="w-3 h-3 bg-white rounded-full"></div>
@@ -145,7 +124,7 @@ const TimelineItem = ({ item, index, isLast }: { item: any, index: number, isLas
                 <p className="text-gray-800 dark:text-gray-200 transition-colors duration-500">{item.description}</p>
             </div>
         </div>
-    </motion.div>
+    </div>
 );
 
 export default ExperienceAndEducationList;

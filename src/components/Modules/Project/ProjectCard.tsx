@@ -1,5 +1,4 @@
 import React from 'react';
-import { motion } from 'framer-motion';
 import Image from 'next/image';
 import { FaGithub, FaExternalLinkAlt, FaServer } from 'react-icons/fa';
 import { IProject } from '@/components/Types/project.type';
@@ -10,16 +9,7 @@ import { BiDetail } from 'react-icons/bi';
 // Accept the project prop
 const ProjectCard = ({ project }: { project: IProject}) => {
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
-      whileHover={{ 
-        scale: 1.02,
-        transition: { duration: 0.2 }
-      }}
-      className="bg-white/70 dark:bg-gray-800/70 backdrop-blur-md rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-500 group flex flex-col border border-gray-200/20 dark:border-gray-700/20"
-    >
+    <div className="bg-white/70 dark:bg-gray-800/70 backdrop-blur-md rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-500 group flex flex-col border border-gray-200/20 dark:border-gray-700/20 hover:scale-[1.02]">
       {/* Image Container */}
       <div className="relative h-48 w-full overflow-hidden">
         <Image
@@ -46,15 +36,12 @@ const ProjectCard = ({ project }: { project: IProject}) => {
           {/* Technologies */}
           <div className="flex flex-wrap gap-2 mb-4">
             {project.technology.map((tech, index) => (
-              <motion.span
+              <span
                 key={index}
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: index * 0.1 }}
                 className="px-2 py-1 text-xs bg-gray-100/70 dark:bg-gray-700/70 text-gray-700 dark:text-gray-300 rounded-full backdrop-blur-sm"
               >
                 {tech}
-              </motion.span>
+              </span>
             ))}
           </div>
         </div>
@@ -62,47 +49,42 @@ const ProjectCard = ({ project }: { project: IProject}) => {
         {/* Footer with Buttons and Icons */}
         <div className="flex justify-between items-center pt-4 mt-auto">
           <div className="flex gap-4">
-            <motion.a
+            <a
               href={project.frontendrepoUrl}
               target="_blank"
               rel="noopener noreferrer"
-              whileHover={{ scale: 1.1, y: -2 }}
-              className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors duration-300"
+              className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition duration-300 hover:-translate-y-0.5 hover:scale-110"
             >
               <FaGithub className="w-5 h-5" />
-            </motion.a>
-            <motion.a
+            </a>
+            <a
               href={project.backendrepoUrl}
               target="_blank"
               rel="noopener noreferrer"
-              whileHover={{ scale: 1.1, y: -2 }}
-              className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors duration-300"
+              className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition duration-300 hover:-translate-y-0.5 hover:scale-110"
             >
               <FaServer className="w-5 h-5" />
-            </motion.a>
-            <motion.a
+            </a>
+            <a
               href={project.liveUrl}
               target="_blank"
               rel="noopener noreferrer"
-              whileHover={{ scale: 1.1, y: -2 }}
-              className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors duration-300"
+              className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition duration-300 hover:-translate-y-0.5 hover:scale-110"
             >
               <FaExternalLinkAlt className="w-5 h-5" />
-            </motion.a>
+            </a>
           </div>
-          <motion.a
-            whileHover={{ scale: 1.05, y: -2 }}
-            whileTap={{ scale: 0.95 }}
-            className="px-4 py-2 bg-gray-800/90 dark:bg-gray-700/90 text-white rounded-lg hover:bg-gray-700 dark:hover:bg-gray-600 transition-colors duration-300 text-sm backdrop-blur-sm"
+          <a
+            className="px-4 py-2 bg-gray-800/90 dark:bg-gray-700/90 text-white rounded-lg hover:bg-gray-700 dark:hover:bg-gray-600 transition duration-300 text-sm backdrop-blur-sm active:scale-95 hover:-translate-y-0.5 hover:scale-[1.02]"
             href={`project/${project.id}`}
           >
             <div className="flex items-center gap-2">
               <BiDetail className="w-5 h-5" /> Details
             </div>
-          </motion.a>
+          </a>
         </div>
       </div>
-    </motion.div>
+    </div>
   );
 };
 

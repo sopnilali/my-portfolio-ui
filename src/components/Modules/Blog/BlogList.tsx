@@ -1,34 +1,12 @@
 import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { motion } from 'framer-motion'
 import './blog.css'
 import { useGetAllBlogQuery } from '@/components/Redux/features/blog/blogApi'
 
 const BlogList = () => {
     const { data: blogs, isLoading, isError, isFetching } = useGetAllBlogQuery(undefined)
     const isDataLoading = isLoading || isFetching;
-
-    const containerVariants = {
-        hidden: { opacity: 0 },
-        visible: {
-            opacity: 1,
-            transition: {
-                staggerChildren: 0.2
-            }
-        }
-    }
-
-    const itemVariants = {
-        hidden: { opacity: 0, y: 20 },
-        visible: {
-            opacity: 1,
-            y: 0,
-            transition: {
-                duration: 0.5
-            }
-        }
-    }
 
     // Skeleton loader for blog card
     const BlogCardSkeleton = () => (
@@ -64,18 +42,12 @@ const BlogList = () => {
     return (
         <>
             <div className=" px-4 pb-10 dark:bg-gray-900/40 bg-white">
-                <motion.h2
-                    initial={{ opacity: 0, y: -20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5 }}
+                <h2
                     className="text-4xl font-bold mb-12 text-center text-gray-900 dark:text-white"
                 >
                     Latest Blog Posts
-                </motion.h2>
-                <motion.div
-                    variants={containerVariants}
-                    initial="hidden"
-                    animate="visible"
+                </h2>
+                <div
                     className="space-y-8 container mx-auto"
                 >
                     {isDataLoading ? (
@@ -86,17 +58,13 @@ const BlogList = () => {
                         </>
                     ) : (
                         blogs?.data?.slice(0, 3).map((blog: any) => (
-                        <motion.div
+                        <div
                             key={blog.id}
-                            variants={itemVariants}
                             className="border border-gray-200 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800/70 shadow hover:shadow-lg transition-shadow duration-300 p-4 md:p-6 flex flex-col md:flex-row items-start md:items-stretch gap-6"
                         >
                             <div className="w-full md:w-1/3 lg:w-1/4 flex-shrink-0">
                                 <Link href={`/blog/${blog.id}`} className="block h-full">
-                                    <motion.div
-                                        whileHover={{ scale: 1.02 }}
-                                        className="relative w-full h-56 md:h-full rounded-lg overflow-hidden"
-                                    >
+                                    <div className="relative w-full h-56 md:h-full rounded-lg overflow-hidden transition-transform duration-200 hover:scale-[1.02]">
                                         <Image
                                             src={blog.thumbnail}
                                             alt={blog.title}
@@ -105,17 +73,15 @@ const BlogList = () => {
                                             sizes="(max-width: 768px) 100vw, 33vw"
                                             priority={true}
                                         />
-                                    </motion.div>
+                                    </div>
                                 </Link>
                             </div>
                             <div className="flex-1 flex flex-col justify-between py-2">
                                 <div className='flex flex-col gap-2'>
                                     <Link href={`/blog/${blog.id}`}>
-                                        <motion.h2
-                                            className="text-2xl font-bold mb-2 leading-snug text-gray-800 dark:text-gray-100 hover:text-gray-700 dark:hover:text-gray-300 transition-colors duration-200"
-                                        >
+                                        <h2 className="text-2xl font-bold mb-2 leading-snug text-gray-800 dark:text-gray-100 hover:text-gray-700 dark:hover:text-gray-300 transition-colors duration-200">
                                             {blog.title}
-                                        </motion.h2>
+                                        </h2>
                                     </Link>
                                     <div className="flex items-center text-xs text-gray-500 dark:text-gray-400 mb-3 space-x-2">
                                         <span className="font-semibold uppercase tracking-wide">{blog.user.name || "Anonymous"}</span>
@@ -140,14 +106,12 @@ const BlogList = () => {
                                     </div>
                                 </div>
                                 <Link href={`/blog/${blog.id}`}>
-                                    <motion.button
-                                        className="mt-2 px-5 py-2 border border-gray-800 dark:border-gray-200 text-gray-900 dark:text-gray-100 rounded hover:bg-gray-700 dark:hover:bg-gray-600 text-sm font-semibold hover:text-white dark:hover:text-white duration-300 transition-all cursor-pointer"
-                                    >
+                                    <button className="mt-2 px-5 py-2 border border-gray-800 dark:border-gray-200 text-gray-900 dark:text-gray-100 rounded hover:bg-gray-700 dark:hover:bg-gray-600 text-sm font-semibold hover:text-white dark:hover:text-white duration-300 transition-all cursor-pointer active:scale-95">
                                         Read More
-                                    </motion.button>
+                                    </button>
                                 </Link>
                             </div>
-                        </motion.div>
+                        </div>
                         ))
                     )}
                     <div className='flex justify-center items-center py-4'>
@@ -155,7 +119,7 @@ const BlogList = () => {
                             Learn More
                         </Link>
                     </div>
-                </motion.div>
+                </div>
             </div>
         </>
     )

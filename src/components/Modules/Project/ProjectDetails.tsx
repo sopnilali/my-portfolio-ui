@@ -2,7 +2,6 @@
 
 import React from 'react'
 import { useParams } from 'next/navigation';
-import { motion } from 'framer-motion';
 import Image from 'next/image';
 import { FaGithub, FaExternalLinkAlt, FaServer, FaIcons } from 'react-icons/fa';
 import { useGetProjectByIdQuery } from '@/components/Redux/features/projects/projectApi';
@@ -44,11 +43,7 @@ const ProjectDetails = () => {
         <>
             <div className="min-h-screen bg-white  dark:bg-gray-900/40 backdrop-blur-md pt-20 transition-colors duration-500">
                 <div className="container mx-auto px-4 sm:px-4 lg:px-4 py-12">
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.5 }}
-                    >
+                    <div>
                         {/* Project Header */}
                         <div className="mb-2 flex justify-between items-center">
                             <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-4 transition-colors duration-500">{project.title}</h1>
@@ -80,52 +75,46 @@ const ProjectDetails = () => {
                         {/* Technologies */}
                         <div className="flex flex-wrap gap-2 mb-8">
                             {project.technology.map((tech: string, index: number) => (
-                                <motion.span
+                                <span
                                     key={index}
-                                    initial={{ opacity: 0, scale: 0.8 }}
-                                    animate={{ opacity: 1, scale: 1 }}
-                                    transition={{ delay: index * 0.1 }}
                                     className="px-3 py-1 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-full text-sm transition-colors duration-500 hover:bg-gray-200 dark:hover:bg-gray-700"
                                 >
                                     {tech}
-                                </motion.span>
+                                </span>
                             ))}
                         </div>
 
                         {/* Project Links */}
                         <div className="flex flex-wrap gap-4 mb-8">
-                            <motion.a
+                            <a
                                 href={project.frontendrepoUrl}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                whileHover={{ scale: 0.98 }}
-                                className="flex items-center gap-2 px-4 py-2 bg-gray-800 dark:bg-gray-700 text-white rounded-lg hover:bg-gray-700 dark:hover:bg-gray-600 transition-all duration-500 hover:shadow-lg dark:hover:shadow-gray-800/50"
+                                className="flex items-center gap-2 px-4 py-2 bg-gray-800 dark:bg-gray-700 text-white rounded-lg hover:bg-gray-700 dark:hover:bg-gray-600 transition-all duration-500 hover:shadow-lg dark:hover:shadow-gray-800/50 active:scale-95"
                             >
                                 <FaGithub className="w-5 h-5" />
                                 <span>Frontend Code</span>
-                            </motion.a>
-                            <motion.a
+                            </a>
+                            <a
                                 href={project.backendrepoUrl}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                whileHover={{ scale: 0.98 }}
-                                className="flex items-center gap-2 px-4 py-2 bg-gray-800 dark:bg-gray-700 text-white rounded-lg hover:bg-gray-700 dark:hover:bg-gray-600 transition-all duration-500 hover:shadow-lg dark:hover:shadow-gray-800/50"
+                                className="flex items-center gap-2 px-4 py-2 bg-gray-800 dark:bg-gray-700 text-white rounded-lg hover:bg-gray-700 dark:hover:bg-gray-600 transition-all duration-500 hover:shadow-lg dark:hover:shadow-gray-800/50 active:scale-95"
                             >
                                 <FaServer className="w-5 h-5" />
                                 <span>Backend Code</span>
-                            </motion.a>
-                            <motion.a
+                            </a>
+                            <a
                                 href={project.liveUrl}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                whileHover={{ scale: 0.98 }}
-                                className="flex items-center gap-2 px-4 py-2 bg-gray-800 dark:bg-gray-700 text-white rounded-lg hover:bg-gray-700 dark:hover:bg-gray-600 transition-all duration-500 hover:shadow-lg dark:hover:shadow-gray-800/50"
+                                className="flex items-center gap-2 px-4 py-2 bg-gray-800 dark:bg-gray-700 text-white rounded-lg hover:bg-gray-700 dark:hover:bg-gray-600 transition-all duration-500 hover:shadow-lg dark:hover:shadow-gray-800/50 active:scale-95"
                             >
                                 <FaExternalLinkAlt className="w-5 h-5" />
                                 <span>Live</span>
-                            </motion.a>
+                            </a>
                         </div>
-                    </motion.div>
+                    </div>
                 </div>
             </div>
         </>
