@@ -2,28 +2,27 @@
 
 import React from 'react'
 import { useForm } from 'react-hook-form'
-import { useCreateContactMutation } from '@/components/Redux/features/contact/contactApi'
 import { toast } from 'sonner'
+import { createContact, ContactPayload } from '@/services/contactService'
 
-interface ContactFormData {
-  name: string
-  email: string
-  message: string
-}
+type ContactFormData = ContactPayload;
 
 const ContactForm = () => {
   const { register, handleSubmit, formState: { errors }, reset } = useForm<ContactFormData>()
-  const [createContact, { isLoading, isError, isSuccess }] = useCreateContactMutation()
+  const [isSubmitting, setIsSubmitting] = React.useState(false);
 
   const onSubmit = async(data: ContactFormData) => {
-    const toastId = toast.loading('Sending message...')
-    const response = await createContact(data)
-    if (response.data) {
-      toast.success(response.data.message, { id: toastId })
-    } else {
-      toast.error(response.data.message, { id: toastId })
+    const toastId = toast.loading('Sending message...');
+    try {
+      setIsSubmitting(true);
+      const response = await createContact(data);
+      toast.success(response.message, { id: toastId });
+      reset();
+    } catch (error: any) {
+      toast.error(error?.message || 'Failed to send message', { id: toastId });
+    } finally {
+      setIsSubmitting(false);
     }
-    reset()
   }
 
   return (
@@ -91,7 +90,7 @@ const ContactForm = () => {
               type="submit"
               className="w-full bg-gray-900 dark:bg-gray-700 text-white py-3 px-6 rounded-md font-semibold hover:bg-gray-800 dark:hover:bg-gray-600 transition-colors duration-200 active:scale-[0.99]"
             >
-              {isLoading ? 'Sending...' : 'Send Message'}
+              {isSubmitting ? 'Sending...' : 'Send Message'}
             </button>
           </form>
         </div>

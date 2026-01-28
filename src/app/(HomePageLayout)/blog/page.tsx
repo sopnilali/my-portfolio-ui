@@ -1,6 +1,7 @@
 import BlogPages from '@/components/Modules/Blog/BlogPages'
 import { Metadata } from 'next'
 import React from 'react'
+import { getBlogs } from '@/services/blogService'
 
 export const metadata : Metadata = {  
   title: "My Blog",
@@ -21,10 +22,12 @@ export const metadata : Metadata = {
   },
 }
 
-const BlogPage = () => {
+const BlogPage = async () => {
+  const blogs = await getBlogs();
+
   return (
     <div>
-      <BlogPages />
+      <BlogPages blogs={blogs} />
     </div>
   )
 }

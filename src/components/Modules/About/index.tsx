@@ -2,8 +2,8 @@
 
 import React from 'react';
 import Image from 'next/image';
-import { useGetAllSkillsQuery } from '@/components/Redux/features/skill/skillApi';
-import { useGetAllAboutQuery } from '@/components/Redux/features/about/aboutapi';
+import type { Skill } from '@/services/skillService';
+import type { About } from '@/services/aboutService';
 
 const aboutData = {
     profile: {
@@ -16,10 +16,12 @@ const aboutData = {
     personalInterests: "When I'm not coding, I enjoy exploring new technologies, contributing to open-source projects, and staying updated with the latest industry trends. I believe in continuous learning and sharing knowledge with the developer community."
 };
 
-const AboutPages = () => {
-    const { data: MySkills } = useGetAllSkillsQuery(undefined)
-    const { data: aboutDatas, isLoading, isFetching } = useGetAllAboutQuery(undefined);
-    const about = aboutDatas?.data[0];
+interface AboutPagesProps {
+    about: About | null;
+    skills: Skill[];
+}
+
+const AboutPages = ({ about, skills }: AboutPagesProps) => {
 
 
     return (
@@ -32,13 +34,15 @@ const AboutPages = () => {
                             data-aos="zoom-in"
                             data-aos-delay="200"
                         >
-                            <Image
-                                src={about?.imageUrl}
-                                alt={about?.nameTitle || 'Profile'}
-                                fill
-                                className="object-cover"
-                                priority
-                            />
+                            {about?.imageUrl && (
+                                <Image
+                                    src={about.imageUrl}
+                                    alt={about?.nameTitle || 'Profile'}
+                                    fill
+                                    className="object-cover"
+                                    priority
+                                />
+                            )}
                         </div>
 
                         <div
@@ -49,7 +53,7 @@ const AboutPages = () => {
                             <h2 className="text-4xl font-semibold text-gray-800 dark:text-white mb-4 transition-colors duration-500">{aboutData.profile.name}</h2>
                             <p className="text-gray-600 dark:text-gray-300 mb-4 transition-colors duration-500">{aboutData.profile.title}</p>
                             <p className="text-gray-700 dark:text-gray-300 transition-colors duration-500">
-                                {about?.shortdescription.split('\n').map((line: string, index: number) => (
+                                {about?.shortdescription?.split('\n').map((line: string, index: number) => (
                                     <React.Fragment key={index}>
                                         {line}
                                         <br />
@@ -70,7 +74,7 @@ const AboutPages = () => {
                         <section>
                             <h3 className="text-2xl font-semibold text-gray-800 dark:text-white mb-4 transition-colors duration-500" data-aos="fade-right">Skills & Expertise</h3>
                             <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
-                                {MySkills?.data?.map((skill: any, index: number) => (
+                                {skills.map((skill, index) => (
                                     <div
                                         key={skill.id}
                                         data-aos="zoom-in"

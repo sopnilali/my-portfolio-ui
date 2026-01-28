@@ -1,5 +1,6 @@
 import ProjectPages from '@/components/Modules/Project/ProjectPages'
 import React from 'react'
+import { getProjects } from '@/services/projectService'
 
 export const metadata = {
   title: "All Project",
@@ -26,10 +27,12 @@ export const metadata = {
   },
 }
 
-const ProjectPage = () => {
+const ProjectPage = async () => {
+  const projects = await getProjects();
+
   return (
     <div className=' pt-16 '>
-       <ProjectPages/>
+       <ProjectPages projects={projects} />
     </div>
   )
 }

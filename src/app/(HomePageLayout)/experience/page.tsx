@@ -1,6 +1,7 @@
 import ExperienceList from '@/components/Modules/ExperienceAndEducationList'
 import { Metadata } from 'next'
 import React from 'react'
+import { getExperiences } from '@/services/experienceService'
 
 export const metadata : Metadata = {
   title: "My Experience",
@@ -21,10 +22,12 @@ export const metadata : Metadata = {
   },
 }
 
-const ExperiencePage = () => {
+const ExperiencePage = async () => {
+  const experiences = await getExperiences();
+
   return (
     <div className=' pt-16'>
-      <ExperienceList />
+      <ExperienceList experiences={experiences} />
     </div>
   )
 }

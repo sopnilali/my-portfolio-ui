@@ -2,6 +2,7 @@
 import SkillPages from '@/components/Modules/Skill/SkillPages'
 import { Metadata } from 'next'
 import React from 'react'
+import { getSkills } from '@/services/skillService'
 
 
 export const metadata : Metadata = {
@@ -29,10 +30,12 @@ export const metadata : Metadata = {
   },
 }
 
-const SkillPage = () => {
+const SkillPage = async () => {
+  const skills = await getSkills();
+
   return (
     <div className='pt-16'>
-      <SkillPages />
+      <SkillPages skills={skills} />
     </div>
   )
 }

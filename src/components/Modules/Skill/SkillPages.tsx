@@ -1,12 +1,13 @@
 'use client';
 
-import { useGetAllSkillsQuery } from '@/components/Redux/features/skill/skillApi';
 import Image from 'next/image';
+import type { Skill } from '@/services/skillService';
 
-const SkillPages = () => {
+interface SkillPagesProps {
+    skills: Skill[];
+}
 
-    const {data:skills, isLoading, isError, isFetching} = useGetAllSkillsQuery(undefined);
-    const isDataLoading = isLoading || isFetching;
+const SkillPages = ({ skills }: SkillPagesProps) => {
 
 
     // Skeleton loader for skill card
@@ -33,14 +34,12 @@ const SkillPages = () => {
                 <div
                     className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-6 gap-4"
                 >
-                    {isDataLoading ? (
-                        <>
-                            {[...Array(12)].map((_, index) => (
-                                <SkillCardSkeleton key={index} />
-                            ))}
-                        </>
+                    {skills.length === 0 ? (
+                        [...Array(12)].map((_, index) => (
+                            <SkillCardSkeleton key={index} />
+                        ))
                     ) : (
-                        skills?.data?.map((skill: any, index: any) => (
+                        skills.map((skill, index) => (
                         <div
                             key={skill.name}
                             className="bg-white/70 dark:bg-gray-800/70 backdrop-blur-md rounded-xl p-2 sm:p-3 md:p-4 shadow-md hover:shadow-lg transition-all duration-300 flex flex-row items-center justify-between gap-3 sm:gap-4 cursor-pointer border border-gray-200/20 dark:border-gray-700/20 active:scale-95"

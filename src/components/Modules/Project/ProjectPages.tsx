@@ -1,30 +1,12 @@
-'use client';
-
 import React from 'react';
 import ProjectCard from './ProjectCard';
-import Link from 'next/link';
-import { useGetAllProjectQuery } from '@/components/Redux/features/projects/projectApi';
 import { IProject } from '@/components/Types/project.type';
 
-const ProjectPages = () => {
-  const { data: projectData, isLoading, isError } = useGetAllProjectQuery(undefined);
-  const projects = projectData?.data;
+interface ProjectPagesProps {
+  projects: IProject[];
+}
 
-  if (isLoading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-white dark:bg-gray-900/70 backdrop-blur-md">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-gray-800 dark:border-gray-200"></div>
-      </div>
-    )
-  }
-
-  if (isError || !projects) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-white dark:bg-gray-900/70 backdrop-blur-md">
-        <h1 className="text-2xl text-red-500 dark:text-red-300">Error loading projects</h1>
-      </div>
-    )
-  }
+const ProjectPages = ({ projects }: ProjectPagesProps) => {
 
   return (
     <div className="relative bg-white dark:bg-gray-900/40 backdrop-blur-2xl transition-colors duration-500">

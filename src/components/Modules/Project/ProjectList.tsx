@@ -3,13 +3,13 @@
 import React from 'react';
 import ProjectCard from './ProjectCard';
 import Link from 'next/link';
-import { useGetAllProjectQuery } from '@/components/Redux/features/projects/projectApi';
 import { IProject } from '@/components/Types/project.type';
 
-const ProjectList = () => {
-  const { data: projectData, isLoading, isError, isFetching } = useGetAllProjectQuery(undefined);
-  const projects = projectData?.data;
-  const isDataLoading = isLoading || isFetching;
+interface ProjectListProps {
+  projects: IProject[];
+}
+
+const ProjectList = ({ projects }: ProjectListProps) => {
 
   // Skeleton loader for project card
   const ProjectCardSkeleton = () => (
@@ -50,17 +50,9 @@ const ProjectList = () => {
         <div
           className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-3 lg:gap-4"
         >
-          {isDataLoading ? (
-            <>
-              <ProjectCardSkeleton />
-              <ProjectCardSkeleton />
-              <ProjectCardSkeleton />
-            </>
-          ) : (
-            projects?.slice(0, 3).map((project: IProject) => (
-              <ProjectCard key={project.id} project={project} />
-            ))
-          )}
+          {projects.slice(0, 3).map((project: IProject) => (
+            <ProjectCard key={project.id} project={project} />
+          ))}
         </div>
         <div className='flex justify-center items-center pt-4'>
           <a

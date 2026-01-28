@@ -1,6 +1,7 @@
-import ProjectDetails, { generateMetadata } from '@/components/Modules/Project/ProjectDetails'
+import ProjectDetails from '@/components/Modules/Project/ProjectDetails'
 import { Metadata } from 'next'
 import React from 'react'
+import { getProjectById } from '@/services/projectService'
 
 export const metadata : Metadata = {
   title: 'Project Details | Md. Abdul Adud',
@@ -21,12 +22,17 @@ export const metadata : Metadata = {
   },
 }
 
-const ProjectDetailPage = () => {
+interface ProjectDetailPageProps {
+  params: Promise<{ id: string }>;
+}
 
+const ProjectDetailPage = async ({ params }: ProjectDetailPageProps) => {
+  const { id } = await params;
+  const project = await getProjectById(id);
 
   return (
     <div>
-        <ProjectDetails />
+        <ProjectDetails project={project} />
     </div>
   )
 }

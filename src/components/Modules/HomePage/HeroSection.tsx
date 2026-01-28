@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { FaFacebook, FaGithub, FaLinkedin, FaInstagram, FaTwitter, FaDownload, FaFilePdf, FaArrowAltCircleRight } from 'react-icons/fa';
-import { useGetAllAboutQuery } from '@/components/Redux/features/about/aboutapi';
+import type { About } from '@/services/aboutService';
 const heroData = {
   name: "Md. Abdul Adud",
   title: "Full Stack Developer",
@@ -46,11 +46,13 @@ const heroData = {
   ]
 };
 
-const HeroSection = () => {
+interface HeroSectionProps {
+  about: About | null;
+}
+
+const HeroSection = ({ about }: HeroSectionProps) => {
   const [imageLoading, setImageLoading] = useState(true);
-  const { data: aboutData, isLoading, isFetching } = useGetAllAboutQuery(undefined);
-  const about = aboutData?.data[0];
-  const isDataLoading = isLoading || isFetching;
+  const isDataLoading = !about;
 
 
 

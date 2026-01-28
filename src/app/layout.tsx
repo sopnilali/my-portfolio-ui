@@ -26,8 +26,6 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      suppressHydrationWarning
-      style={{ scrollBehavior: "smooth" }}
     >
       <head>
         <link rel="canonical" href="https://mdabduladudui.vercel.app/" />
@@ -37,12 +35,9 @@ export default function RootLayout({
         <meta name="google-site-verification" content="WnuKNSfP5eonYyUBMKSlpMVSH8c58PelG3v59B9mFCQ" />
       </head>
       <body
-        suppressHydrationWarning
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-          <Providers>
-            {children}
-          </Providers>
+          <Providers>{children}</Providers>
       </body>
     </html>
   );

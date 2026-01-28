@@ -4,27 +4,13 @@ import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import './blog.css'
-import { useGetAllBlogQuery } from '@/components/Redux/features/blog/blogApi'
+import type { Blog } from '@/services/blogService'
 
-const BlogPages = () => {
-    const { data: blogs, isLoading, isError } = useGetAllBlogQuery(undefined)
+interface BlogPagesProps {
+    blogs: Blog[];
+}
 
-    if (isLoading) {
-        return (
-            <div className="min-h-screen flex items-center justify-center bg-white dark:bg-gray-900/70 backdrop-blur-md">
-                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-gray-800 dark:border-gray-200"></div>
-            </div>
-        )
-    }
-
-    if (isError || !blogs?.data) {
-        return (
-            <div className="min-h-screen flex items-center justify-center bg-white dark:bg-gray-900/70 backdrop-blur-md">
-                <h1 className="text-2xl text-red-500 dark:text-red-300">Error loading blogs</h1>
-            </div>
-        )
-    }
-
+const BlogPages = ({ blogs }: BlogPagesProps) => {
     return (
         <div className="px-4 py-20 dark:bg-gray-900/40 bg-white backdrop-blur-2xl">
             <h2 
@@ -35,7 +21,7 @@ const BlogPages = () => {
             <div
                 className="space-y-8 container mx-auto "
             >
-                {blogs.data.map((blog: any) => (
+                {blogs.map((blog) => (
                     <div
                         key={blog.id}
                         className="border border-gray-200 dark:border-gray-700 rounded-lg bg-white dark:bg-gray-800/70 shadow hover:shadow-lg transition-shadow duration-300 p-4 md:p-6 flex flex-col md:flex-row items-start md:items-stretch gap-6"
@@ -62,7 +48,7 @@ const BlogPages = () => {
                                     </h2>
                                 </Link>
                                 <div className="flex items-center text-xs text-gray-500 dark:text-gray-400 mb-3 space-x-2">
-                                    <span className="font-semibold uppercase tracking-wide">{blog.user.name || "Anonymous"}</span>
+                                    <span className="font-semibold uppercase tracking-wide">{blog.user?.name || "Anonymous"}</span>
                                     <span>•</span>
                                     <span>
                                         {blog.createdAt

@@ -1,6 +1,7 @@
 import BlogDetails from '@/components/Modules/Blog/BlogDetails'
 import { Metadata } from 'next'
 import React from 'react'
+import { getBlogById } from '@/services/blogService'
 
 export const metadata : Metadata = {
   title: "Blog Details",
@@ -22,12 +23,19 @@ export const metadata : Metadata = {
 }
 
 
-const BlogDetailsPage = () => {
-  return (
-    <div >
-      <BlogDetails />
-    </div>
-  )
+interface BlogDetailsPageProps {
+  params: Promise<{ id: string }>;
 }
+
+const BlogDetailsPage = async ({ params }: BlogDetailsPageProps) => {
+  const { id } = await params;
+  const blog = await getBlogById(id);
+
+  return (
+    <div>
+      <BlogDetails blog={blog} />
+    </div>
+  );
+};
 
 export default BlogDetailsPage

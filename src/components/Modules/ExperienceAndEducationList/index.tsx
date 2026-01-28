@@ -1,10 +1,13 @@
 'use client';
 
 import React from 'react';
-import { useGetAllExperienceQuery } from '@/components/Redux/features/experience/experienceApi';
+import type { Experience } from '@/services/experienceService';
 
-const ExperienceAndEducationList = () => {
-    const { data: experienceData, isLoading, isError } = useGetAllExperienceQuery(undefined);
+interface ExperienceAndEducationListProps {
+    experiences: Experience[];
+}
+
+const ExperienceAndEducationList = ({ experiences }: ExperienceAndEducationListProps) => {
 
     // Separate education and experience data
     const educationData = [
@@ -30,29 +33,6 @@ const ExperienceAndEducationList = () => {
             description: "Secondary school certificate in Science"
         }
     ];
-
-
-    if (isLoading) {
-        return (
-            <div className="min-h-screen flex items-center justify-center bg-white dark:bg-gray-900/70 backdrop-blur-md">
-                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-gray-800 dark:border-gray-200"></div>
-            </div>
-        )
-    }
-
-
-
-    const experienceInfo = experienceData?.data
-
-    if (isError || !experienceInfo) {
-        return (
-            <div className="min-h-screen flex items-center justify-center bg-white dark:bg-gray-900/70 backdrop-blur-md">
-                <h1 className="text-2xl text-red-500 dark:text-red-300">Error loading projects</h1>
-            </div>
-        )
-    }
-
-
 
     return (
         <div className="relative bg-white dark:bg-gray-900/40 backdrop-blur-2xl transition-colors duration-500">
@@ -94,8 +74,8 @@ const ExperienceAndEducationList = () => {
                         <h3 className="text-3xl font-bold text-gray-900 dark:text-white mb-6 transition-colors duration-500">
                             Experience
                         </h3>
-                        {experienceInfo?.map((item: any, index: number) => (
-                            <TimelineItem key={index} item={item} index={index} isLast={index === experienceInfo.length - 1} />
+                        {experiences.map((item, index) => (
+                            <TimelineItem key={index} item={item} index={index} isLast={index === experiences.length - 1} />
                         ))}
                     </div>
                 </div>

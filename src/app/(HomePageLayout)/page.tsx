@@ -1,10 +1,12 @@
 
-import ExperienceList from '@/components/Modules/ExperienceAndEducationList'
-import HomePageIndex from '@/components/Modules/HomePage'
-import HeroSection from '@/components/Modules/HomePage/HeroSection'
-import { Metadata } from 'next'
-
-import React from 'react'
+import HomePageIndex from '@/components/Modules/HomePage';
+import { Metadata } from 'next';
+import { getAboutList } from '@/services/aboutService';
+import { getProjects } from '@/services/projectService';
+import { getSkills } from '@/services/skillService';
+import { getExperiences } from '@/services/experienceService';
+import { getBlogs } from '@/services/blogService';
+import React from 'react';
 
 export const metadata : Metadata = {
   title: 'Welcome to my portfolio | Md. Abdul Adud ',
@@ -42,12 +44,28 @@ export const metadata : Metadata = {
   
 }
 
-const HomePage = () => {
+const HomePage = async () => {
+  const [aboutList, projects, skills, experiences, blogs] = await Promise.all([
+    getAboutList(),
+    getProjects(),
+    getSkills(),
+    getExperiences(),
+    getBlogs(),
+  ]);
+
+  const about = aboutList[0] ?? null;
+
   return (
     <div>
-      <HomePageIndex />
+      <HomePageIndex
+        about={about}
+        projects={projects}
+        skills={skills}
+        experiences={experiences}
+        blogs={blogs}
+      />
     </div>
-  )
-}
+  );
+};
 
-export default HomePage
+export default HomePage;

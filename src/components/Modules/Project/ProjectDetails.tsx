@@ -1,43 +1,20 @@
-'use client'
-
 import React from 'react'
-import { useParams } from 'next/navigation';
 import Image from 'next/image';
-import { FaGithub, FaExternalLinkAlt, FaServer, FaIcons } from 'react-icons/fa';
-import { useGetProjectByIdQuery } from '@/components/Redux/features/projects/projectApi';
+import { FaGithub, FaExternalLinkAlt, FaServer } from 'react-icons/fa';
+import type { IProject } from '@/components/Types/project.type';
 
-export async function generateMetadata({ params }: { params: { id: string } }) {
-    // Fetch project data here if needed
-    // const project = await fetchProject(params.id);
-    // Example:
-    return {
-      title: `Project: ${params.id}`,
-      description: `Details for project ${params.id}`,
-    };
-  }
-  
+interface ProjectDetailsProps {
+    project: IProject | null;
+}
 
-const ProjectDetails = () => {
-    const { id } = useParams();
-    const { data: projectData, isLoading, isError } = useGetProjectByIdQuery(id);
-
-    if (isLoading) {
+const ProjectDetails = ({ project }: ProjectDetailsProps) => {
+    if (!project) {
         return (
             <div className="min-h-screen flex items-center justify-center">
-                <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-gray-900"></div>
+                <h1 className="text-2xl text-red-600">Project not found</h1>
             </div>
         );
     }
-
-    if (isError || !projectData?.data) {
-        return (
-            <div className="min-h-screen flex items-center justify-center">
-                <h1 className="text-2xl text-red-600">Error loading project details</h1>
-            </div>
-        );
-    }
-
-    const project = projectData.data;
 
     return (
         <>

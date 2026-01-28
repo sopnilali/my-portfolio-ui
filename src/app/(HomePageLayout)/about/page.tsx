@@ -2,6 +2,8 @@
 import AboutPages from '@/components/Modules/About'
 import { Metadata } from 'next'
 import React from 'react'
+import { getAboutList } from '@/services/aboutService'
+import { getSkills } from '@/services/skillService'
 
 export const metadata : Metadata = {
   title: "About Me",
@@ -22,10 +24,13 @@ export const metadata : Metadata = {
   },
 }
 
-const AboutPage = () => {
+const AboutPage = async () => {
+  const [aboutList, skills] = await Promise.all([getAboutList(), getSkills()]);
+  const about = aboutList[0] ?? null;
+
   return (
     <div>
-      <AboutPages />
+      <AboutPages about={about} skills={skills} />
     </div>
   )
 }
