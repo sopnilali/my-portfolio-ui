@@ -10,9 +10,7 @@ export interface Experience {
 }
 
 export async function getExperiences(): Promise<Experience[]> {
-  const res = await fetchJson<ApiResponse<Experience[]>>('/experience', {
-    cache: 'no-store',
-  });
+  const res = await fetchJson<ApiResponse<Experience[]>>('/experience');
   return res.data ?? [];
 }
 

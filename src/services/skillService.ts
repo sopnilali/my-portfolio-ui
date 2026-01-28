@@ -7,9 +7,12 @@ export interface Skill {
 }
 
 export async function getSkills(): Promise<Skill[]> {
-  const res = await fetchJson<ApiResponse<Skill[]>>('/skill', {
-    cache: 'no-store',
-  });
-  return res.data ?? [];
+  try {
+    const res = await fetchJson<ApiResponse<Skill[]>>('/skill');
+    return res.data ?? [];
+  } catch (error) {
+    console.error('Failed to fetch skills', error);
+    return [];
+  }
 }
 

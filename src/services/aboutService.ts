@@ -9,9 +9,7 @@ export interface About {
 }
 
 export async function getAboutList(): Promise<About[]> {
-  const res = await fetchJson<ApiResponse<About[]>>('/about', {
-    cache: 'no-store',
-  });
+  const res = await fetchJson<ApiResponse<About[]>>('/about');
   return res.data ?? [];
 }
 

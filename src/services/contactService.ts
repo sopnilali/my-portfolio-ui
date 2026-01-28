@@ -19,7 +19,6 @@ export async function createContact(
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(payload),
-    cache: 'no-store',
   });
 
   return {

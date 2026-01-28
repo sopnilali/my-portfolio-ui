@@ -8,21 +8,33 @@ export interface ApiResponse<T> {
 export async function fetchJson<T>(
   path: string,
   init?: RequestInit,
+  timeoutMs = 10000,
 ): Promise<T> {
   const url = `${API_BASE}${path}`;
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
 
-  const res = await fetch(url, {
-    // Default: revalidate periodically; callers can override
-    next: { revalidate: 60 },
-    ...init,
-  });
+  try {
+    const res = await fetch(url, {
+      // Default: revalidate periodically; callers can override
+      next: { revalidate: 60 },
+      signal: controller.signal,
+      ...init,
+    });
 
-  if (!res.ok) {
-    // Optionally log or throw more detailed error
-    const text = await res.text().catch(() => '');
-    throw new Error(`Request to ${path} failed: ${res.status} ${text}`);
+    if (!res.ok) {
+      const text = await res.text().catch(() => '');
+      throw new Error(`Request to ${path} failed: ${res.status} ${text}`);
+    }
+
+    return (await res.json()) as T;
+  } catch (error: any) {
+    if (error?.name === 'AbortError') {
+      throw new Error(`Request to ${path} timed out after ${timeoutMs}ms`);
+    }
+    throw error;
+  } finally {
+    clearTimeout(timeoutId);
   }
-
-  return res.json() as Promise<T>;
 }
 
