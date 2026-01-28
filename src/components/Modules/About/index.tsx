@@ -40,7 +40,6 @@ const AboutPages = ({ about, skills }: AboutPagesProps) => {
                                     alt={about?.nameTitle || 'Profile'}
                                     fill
                                     className="object-cover"
-                                    priority
                                 />
                             )}
                         </div>

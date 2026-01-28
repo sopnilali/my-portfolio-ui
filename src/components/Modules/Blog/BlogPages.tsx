@@ -35,7 +35,6 @@ const BlogPages = ({ blogs }: BlogPagesProps) => {
                                         fill
                                         className="object-cover"
                                         sizes="(max-width: 768px) 100vw, 33vw"
-                                        priority={true}
                                     />
                                 </div>
                             </Link>
