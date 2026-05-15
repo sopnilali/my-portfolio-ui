@@ -1,90 +1,222 @@
 import React from 'react';
 import Image from 'next/image';
-import { FaGithub, FaExternalLinkAlt, FaServer } from 'react-icons/fa';
-import { IProject } from '@/components/Types/project.type';
 import Link from 'next/link';
-import { BiDetail } from 'react-icons/bi';
+import {
+  ArrowRight,
+  Clock,
+  ExternalLink,
+  Github,
+  LayoutGrid,
+  Server,
+} from 'lucide-react';
+import type { IProject } from '@/components/Types/project.type';
 
+function isValidImageSrc(src: unknown): src is string {
+  return typeof src === 'string' && src.trim().length > 0;
+}
 
-// Accept the project prop
-const ProjectCard = ({ project }: { project: IProject}) => {
+function stripHtml(html: string): string {
+  if (!html) return '';
+  return html.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
+}
+
+function excerpt(text: string, maxLen = 130): string {
+  const t = stripHtml(text).trim();
+  if (t.length <= maxLen) return t;
+  return `${t.slice(0, maxLen).trim()}…`;
+}
+
+function isValidHttpUrl(href: string | undefined): boolean {
+  if (!href?.trim()) return false;
+  try {
+    const u = new URL(href.trim());
+    return u.protocol === 'http:' || u.protocol === 'https:';
+  } catch {
+    return false;
+  }
+}
+
+function statusPillClass(status: string): string {
+  const s = status.toLowerCase();
+  if (
+    s.includes('complete') ||
+    s.includes('done') ||
+    s.includes('live') ||
+    s.includes('shipped')
+  ) {
+    return 'border-emerald-500/25 bg-emerald-500/12 text-emerald-800 dark:text-emerald-200';
+  }
+  if (
+    s.includes('progress') ||
+    s.includes('ongoing') ||
+    s.includes('active') ||
+    s.includes('build')
+  ) {
+    return 'border-amber-500/25 bg-amber-500/12 text-amber-900 dark:text-amber-100';
+  }
+  return 'border-border bg-muted/80 text-muted-foreground';
+}
+
+const ProjectCard = ({
+  project,
+  index = 0,
+}: {
+  project: IProject;
+  index?: number;
+}) => {
+  const detailHref = `/project/${project.id}`;
+  const imageSrc = isValidImageSrc(project.imageUrl)
+    ? project.imageUrl.trim()
+    : null;
+  const blurb = excerpt(project.description);
+  const showFrontend = isValidHttpUrl(project.frontendrepoUrl);
+  const showBackend = isValidHttpUrl(project.backendrepoUrl);
+  const showLive = isValidHttpUrl(project.liveUrl);
+  const statusLabel = project.status?.trim() || 'Project';
+
   return (
-    <div className="bg-white/70 dark:bg-gray-800/70 backdrop-blur-md rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-500 group flex flex-col border border-gray-200/20 dark:border-gray-700/20 hover:scale-[1.02]">
-      {/* Image Container */}
-      <div className="relative h-48 w-full overflow-hidden">
-        <Image
-          src={project.imageUrl}
-          alt={project.title}
-          fill
-          className="object-cover transition-transform duration-500 group-hover:scale-110"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+    <article
+      className="group relative flex flex-col overflow-hidden rounded-2xl border border-border bg-card/95 shadow-sm backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:border-accent/35 hover:shadow-lg hover:shadow-accent/5 dark:bg-card/75"
+      data-aos="fade-up"
+      data-aos-delay={index * 100}
+    >
+      <div className="relative aspect-[16/10] w-full shrink-0 overflow-hidden bg-muted">
+        <Link
+          href={detailHref}
+          className="relative block h-full min-h-[11rem] w-full sm:min-h-[12.5rem]"
+        >
+          {imageSrc ? (
+            <>
+              <Image
+                src={imageSrc}
+                alt={project.title}
+                fill
+                className="object-cover transition-transform duration-500 group-hover:scale-105"
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              />
+              <div
+                aria-hidden
+                className="absolute inset-0 bg-gradient-to-t from-background/85 via-background/10 to-transparent opacity-90 transition-opacity duration-300 group-hover:from-background/92"
+              />
+              <div
+                aria-hidden
+                className="absolute inset-0 ring-1 ring-inset ring-black/[0.06] dark:ring-white/10"
+              />
+            </>
+          ) : (
+            <div className="flex h-full min-h-[11rem] w-full flex-col items-center justify-center gap-3 bg-gradient-to-br from-muted via-muted to-accent/15 px-6 text-center transition-colors group-hover:to-accent/25 sm:min-h-[12.5rem]">
+              <LayoutGrid
+                className="h-12 w-12 text-accent/40 dark:text-accent/50"
+                aria-hidden
+              />
+              <span className="text-xs font-semibold uppercase tracking-widest text-muted-foreground">
+                Preview
+              </span>
+            </div>
+          )}
+        </Link>
+
+        <span
+          className={`absolute left-3 top-3 inline-flex max-w-[70%] items-center truncate rounded-full border px-2.5 py-1 text-[10px] font-bold uppercase tracking-widest shadow-sm backdrop-blur-sm ${statusPillClass(statusLabel)}`}
+          title={statusLabel}
+        >
+          {statusLabel}
+        </span>
+        <span className="absolute right-3 top-3 inline-flex items-center rounded-full bg-background/90 px-2.5 py-1 text-[10px] font-bold uppercase tracking-widest text-accent shadow-sm backdrop-blur-sm dark:bg-background/60">
+          Case study
+        </span>
       </div>
 
-      {/* Content Section */}
-      <div className="flex flex-col flex-1 justify-between p-6">
-        <div>
-          <Link href={`/project/${project.id}`}>
-            <h3 className="text-xl hover:text-gray-700 dark:hover:text-gray-300 font-bold text-gray-800 dark:text-white mb-2 transition-colors duration-300">
+      <div className="flex flex-1 flex-col justify-between gap-4 p-5 sm:p-6">
+        <div className="space-y-3">
+          <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-xs font-medium text-muted-foreground">
+            <span className="inline-flex items-center gap-1.5 text-foreground">
+              <Clock className="h-3.5 w-3.5 shrink-0 text-accent" aria-hidden />
+              {project.duration || 'Timeline TBD'}
+            </span>
+          </div>
+
+          <Link href={detailHref} className="block">
+            <h3 className="text-lg font-bold leading-snug tracking-tight text-foreground transition-colors duration-200 group-hover:text-accent sm:text-xl">
               {project.title}
             </h3>
           </Link>
 
-          {/* Duration */}
-          <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">Duration: {project.duration}</p>
+          {blurb ? (
+            <p className="line-clamp-2 text-sm leading-relaxed text-muted-foreground">
+              {blurb}
+            </p>
+          ) : null}
 
-          {/* Technologies */}
-          <div className="flex flex-wrap gap-2 mb-4">
-            {project.technology.map((tech, index) => (
+          <div className="flex flex-wrap gap-1.5 pt-0.5">
+            {project.technology.slice(0, 6).map((tech) => (
               <span
-                key={index}
-                className="px-2 py-1 text-xs bg-gray-100/70 dark:bg-gray-700/70 text-gray-700 dark:text-gray-300 rounded-full backdrop-blur-sm"
+                key={tech}
+                className="rounded-md border border-border bg-muted/60 px-2 py-0.5 text-[11px] font-medium text-muted-foreground backdrop-blur-sm transition-colors group-hover:border-accent/20 group-hover:text-foreground"
               >
                 {tech}
               </span>
             ))}
+            {project.technology.length > 6 ? (
+              <span className="rounded-md border border-dashed border-border px-2 py-0.5 text-[11px] text-muted-foreground">
+                +{project.technology.length - 6}
+              </span>
+            ) : null}
           </div>
         </div>
 
-        {/* Footer with Buttons and Icons */}
-        <div className="flex justify-between items-center pt-4 mt-auto">
-          <div className="flex gap-4">
-            <a
-              href={project.frontendrepoUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition duration-300 hover:-translate-y-0.5 hover:scale-110"
-            >
-              <FaGithub className="w-5 h-5" />
-            </a>
-            <a
-              href={project.backendrepoUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition duration-300 hover:-translate-y-0.5 hover:scale-110"
-            >
-              <FaServer className="w-5 h-5" />
-            </a>
-            <a
-              href={project.liveUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition duration-300 hover:-translate-y-0.5 hover:scale-110"
-            >
-              <FaExternalLinkAlt className="w-5 h-5" />
-            </a>
+        <div className="flex flex-col gap-3 border-t border-border pt-4 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex flex-wrap items-center gap-1">
+            {showFrontend ? (
+              <a
+                href={project.frontendrepoUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-transparent text-muted-foreground transition-colors hover:border-border hover:bg-muted hover:text-foreground"
+                aria-label="Frontend repository"
+              >
+                <Github className="h-4 w-4" />
+              </a>
+            ) : null}
+            {showBackend ? (
+              <a
+                href={project.backendrepoUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-transparent text-muted-foreground transition-colors hover:border-border hover:bg-muted hover:text-foreground"
+                aria-label="Backend repository"
+              >
+                <Server className="h-4 w-4" />
+              </a>
+            ) : null}
+            {showLive ? (
+              <a
+                href={project.liveUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-transparent text-muted-foreground transition-colors hover:border-accent/35 hover:bg-accent/10 hover:text-accent"
+                aria-label="Live demo"
+              >
+                <ExternalLink className="h-4 w-4" />
+              </a>
+            ) : null}
+            {!showFrontend && !showBackend && !showLive ? (
+              <span className="text-xs text-muted-foreground">
+                Links available on detail page
+              </span>
+            ) : null}
           </div>
-          <a
-            className="px-4 py-2 bg-gray-800/90 dark:bg-gray-700/90 text-white rounded-lg hover:bg-gray-700 dark:hover:bg-gray-600 transition duration-300 text-sm backdrop-blur-sm active:scale-95 hover:-translate-y-0.5 hover:scale-[1.02]"
-            href={`project/${project.id}`}
+
+          <Link
+            href={detailHref}
+            className="group/btn inline-flex items-center justify-center gap-2 self-start rounded-xl bg-accent px-4 py-2.5 text-sm font-semibold text-accent-foreground shadow-sm transition-all duration-200 hover:bg-accent/90 hover:shadow-md active:scale-[0.98] sm:self-auto"
           >
-            <div className="flex items-center gap-2">
-              <BiDetail className="w-5 h-5" /> Details
-            </div>
-          </a>
+            View details
+            <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover/btn:translate-x-0.5" />
+          </Link>
         </div>
       </div>
-    </div>
+    </article>
   );
 };
 

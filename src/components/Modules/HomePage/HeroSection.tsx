@@ -3,167 +3,303 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { FaFacebook, FaGithub, FaLinkedin, FaInstagram, FaTwitter, FaDownload, FaFilePdf, FaArrowAltCircleRight } from 'react-icons/fa';
-import type { About } from '@/services/aboutService';
-const heroData = {
-  name: "Md. Abdul Adud",
-  title: "Full Stack Developer",
-  description: "I am a web developer focused on building scalable, maintainable, and high-quality web applications. . I have a deep love for learning and always strive to improve my skills.",
-  buttons: [
-    {
-      text: <span className='flex items-center gap-2'>{<FaArrowAltCircleRight />}Contact Me</span>,
-      link: "/contact",
-      primary: true
-    },
-    {
-      text: <span className='flex items-center gap-2'>{<FaFilePdf />} Resume</span>, 
-      link: "https://drive.google.com/drive/folders/1vWfEtq0rSp613hx5l8rwE4flmtPgWw9W",
-      primary: false
-    },
-    {
-      text: <span className='flex items-center gap-2'>{<FaFilePdf />} CV</span>, 
-      link: "https://drive.google.com/drive/folders/1GJG5ksMd4glEUwPrbSJQwVRm8iRjmD6D",
-      primary: false
-    }
-  ],
-  image: {
-    src: "https://i.postimg.cc/MKD6gcRS/Whats-App-Image-2025-12-13-at-19-07-19-fb8f2939.png",
-    alt: "Md. Abdul Adud"
-  },
-  socialLinks: [
-    {
-      url: "https://github.com/sopnilali",
-      icon: "github"
-    },
-    {
-      url: "https://www.linkedin.com/in/ami-abdul-adud",
-      icon: "linkedin"
-    },
-    {
-      url: "https://www.facebook.com/cse.wadud",
-      icon: "facebook"
-    }
-  ]
-};
+import {
+  ArrowRight,
+  ArrowUpRight,
+  Facebook,
+  FileText,
+  Github,
+  Globe,
+  Instagram,
+  Linkedin,
+  Sparkles,
+  Twitter,
+  Zap,
+} from 'lucide-react';
+import type { About, HeroSocialIcon } from '@/services/aboutService';
+import {
+  getHeroButtons,
+  getHeroSocialLinks,
+  heroAvailabilityBadge,
+  heroDisplayBio,
+  heroDisplayName,
+  heroDisplayRole,
+  heroImageAlt,
+  heroImageSrc,
+  heroPortfolioBadge,
+  parseHeroHighlights,
+} from '@/services/aboutService';
+
+function isExternalHref(href: string): boolean {
+  return /^https?:\/\//i.test(href);
+}
+
+function HeroSocialIconGlyph({ icon }: { icon: HeroSocialIcon }) {
+  const c = 'h-[1.125rem] w-[1.125rem] shrink-0';
+  switch (icon) {
+    case 'github':
+      return <Github className={c} aria-hidden />;
+    case 'linkedin':
+      return <Linkedin className={c} aria-hidden />;
+    case 'facebook':
+      return <Facebook className={c} aria-hidden />;
+    case 'twitter':
+      return <Twitter className={c} aria-hidden />;
+    case 'instagram':
+      return <Instagram className={c} aria-hidden />;
+    default:
+      return <Globe className={c} aria-hidden />;
+  }
+}
+
+function HeroPortraitImage({
+  src,
+  alt,
+  showBlockingSkeleton,
+}: {
+  src: string;
+  alt: string;
+  showBlockingSkeleton: boolean;
+}) {
+  const [loaded, setLoaded] = useState(false);
+  const showOverlay = showBlockingSkeleton || !loaded;
+
+  return (
+    <div className="relative aspect-[4/5] w-full max-h-[min(72vh,520px)] min-h-[280px] bg-muted sm:min-h-[360px]">
+      {showOverlay ? (
+        <div className="absolute inset-0 z-[1] animate-pulse bg-gradient-to-r from-muted via-muted-foreground/10 to-muted">
+          <div className="absolute inset-0 animate-shimmer bg-gradient-to-r from-transparent via-background/35 to-transparent" />
+        </div>
+      ) : null}
+      <Image
+        src={src}
+        alt={alt}
+        fill
+        priority
+        className={`object-cover object-top transition-opacity duration-500 ${loaded ? 'opacity-100' : 'opacity-0'}`}
+        sizes="(max-width: 1024px) 100vw, 42vw"
+        onLoad={() => setLoaded(true)}
+        onError={() => setLoaded(true)}
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 ring-1 ring-inset ring-black/[0.05] dark:ring-white/[0.06]"
+      />
+    </div>
+  );
+}
 
 interface HeroSectionProps {
   about: About | null;
 }
 
 const HeroSection = ({ about }: HeroSectionProps) => {
-  const [imageLoading, setImageLoading] = useState(true);
   const isDataLoading = !about;
 
+  const displayName = heroDisplayName(about);
+  const displayRole = heroDisplayRole(about);
+  const displayBio = heroDisplayBio(about);
+  const imageSrc = heroImageSrc(about);
+  const imageAlt = heroImageAlt(about);
+  const portfolioBadge = heroPortfolioBadge(about);
+  const availabilityBadge = heroAvailabilityBadge(about);
+  const highlights = parseHeroHighlights(about);
+  const heroButtons = getHeroButtons(about);
+  const socialLinks = getHeroSocialLinks(about);
 
+  const ctaClassPrimary =
+    'inline-flex w-full items-center justify-center gap-2 rounded-xl bg-accent px-6 py-3.5 text-sm font-semibold text-accent-foreground shadow-lg shadow-accent/25 transition hover:bg-accent/90 hover:shadow-xl hover:shadow-accent/20 active:scale-[0.98] sm:w-auto';
+
+  const ctaClassSecondary =
+    'inline-flex w-full items-center justify-center gap-2 rounded-xl border border-border bg-background/80 px-6 py-3.5 text-sm font-semibold text-foreground backdrop-blur-sm transition hover:border-accent/40 hover:bg-accent/5 hover:text-accent active:scale-[0.98] sm:w-auto';
 
   return (
-    <div className=" md:min-h-[90vh] sm:min-h-[80vh] flex items-center justify-center bg-white dark:bg-gray-900/40 backdrop-blur-2xl pt-16 relative">
-      <div className="container mx-auto px-4 sm:px-4 lg:px-4 relative z-20">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
-          {/* Hero Image */}
-          <div className="relative order-first lg:order-last pt-10">
-            <div className="relative w-full aspect-square border-4 scale-95 border-gray-200/50 dark:border-gray-700/50 rounded-full overflow-hidden shadow-[0_0_50px_rgba(0,0,0,0.2)] backdrop-blur-xl bg-white dark:bg-gray-800/20 transition-transform duration-200 hover:scale-[0.98]">
-              {/* Image Skeleton Loader */}
-              {(isDataLoading || imageLoading) && (
-                <div className="absolute inset-0 bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 dark:from-gray-700 dark:via-gray-600 dark:to-gray-700 animate-pulse">
-                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent animate-shimmer" />
+    <section className="relative isolate overflow-hidden bg-background pb-20 pt-[5.25rem] md:pb-28 md:pt-28">
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 -z-10 bg-[linear-gradient(to_right,rgba(100,116,139,0.09)_1px,transparent_1px),linear-gradient(to_bottom,rgba(100,116,139,0.09)_1px,transparent_1px)] bg-[length:48px_48px] dark:bg-[linear-gradient(to_right,rgba(148,163,184,0.08)_1px,transparent_1px),linear-gradient(to_bottom,rgba(148,163,184,0.08)_1px,transparent_1px)]"
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -top-24 right-0 h-[28rem] w-[28rem] rounded-full bg-accent/20 blur-[100px]"
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -bottom-32 left-[10%] h-[22rem] w-[22rem] rounded-full bg-muted-foreground/10 blur-[90px]"
+      />
+
+      <div className="relative z-[1] mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+        <div className="grid items-center gap-14 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:gap-16">
+          <div className="order-2 space-y-8 lg:order-1">
+            <div className="inline-flex flex-wrap items-center gap-2">
+              <span className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground shadow-sm">
+                <Sparkles className="h-3.5 w-3.5 text-accent" aria-hidden />
+                {portfolioBadge}
+              </span>
+              <span className="inline-flex items-center gap-2 rounded-full border border-emerald-500/25 bg-emerald-500/10 px-3 py-1.5 text-xs font-medium text-emerald-900 dark:text-emerald-100">
+                <span className="relative flex h-2 w-2">
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-55" />
+                  <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
+                </span>
+                {availabilityBadge}
+              </span>
+            </div>
+
+            {isDataLoading ? (
+              <div className="space-y-5">
+                <div className="h-14 w-[90%] max-w-xl animate-pulse rounded-xl bg-muted sm:h-16" />
+                <div className="h-10 w-2/3 animate-pulse rounded-lg bg-muted" />
+                <div className="space-y-2 pt-2">
+                  <div className="h-4 w-full animate-pulse rounded bg-muted" />
+                  <div className="h-4 w-5/6 animate-pulse rounded bg-muted" />
                 </div>
-              )}
-              
-              {about?.imageUrl && (
-                <Image
-                  src={about.imageUrl}
-                  alt={about?.nameTitle || 'Profile'}
-                  className={`object-cover transition-opacity duration-500 ${
-                    imageLoading ? 'opacity-0' : 'opacity-100'
-                  }`}
-                  fill
-                  onLoad={() => setImageLoading(false)}
-                  onError={() => setImageLoading(false)}
-                />
-              )}
+              </div>
+            ) : (
+              <>
+                <div className="space-y-4">
+                  <h1 className="text-[2.125rem] font-bold tracking-tight text-foreground sm:text-5xl lg:text-[3.25rem] lg:leading-[1.08]">
+                    <span className="bg-gradient-to-r from-foreground via-accent to-muted-foreground bg-clip-text text-transparent dark:via-accent">
+                      {displayName}
+                    </span>
+                  </h1>
+                  <p className="flex flex-wrap items-center gap-2 text-lg font-medium text-muted-foreground sm:text-xl">
+                    <Zap className="h-5 w-5 shrink-0 text-accent" aria-hidden />
+                    <span>{displayRole}</span>
+                  </p>
+                  <p className="max-w-xl text-base leading-relaxed text-muted-foreground sm:text-[1.05rem] sm:leading-relaxed">
+                    {displayBio}
+                  </p>
+                </div>
+
+                <ul className="flex flex-wrap gap-2">
+                  {highlights.map((item) => (
+                    <li
+                      key={item}
+                      className="rounded-lg border border-border bg-muted/50 px-3 py-1.5 text-xs font-semibold text-foreground/90 backdrop-blur-sm dark:bg-muted/30"
+                    >
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </>
+            )}
+
+            <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
+              {heroButtons.map((button, index) => {
+                const ext = isExternalHref(button.link);
+                const className = button.primary ? ctaClassPrimary : ctaClassSecondary;
+                const content = (
+                  <>
+                    <span>{button.text}</span>
+                    {button.primary ? (
+                      <ArrowRight className="h-4 w-4" aria-hidden />
+                    ) : (
+                      <FileText className="h-4 w-4 opacity-90" aria-hidden />
+                    )}
+                  </>
+                );
+                const btnKey = `${button.text}-${button.link}-${index}`;
+
+                if (ext) {
+                  return (
+                    <a
+                      key={btnKey}
+                      href={button.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={className}
+                    >
+                      {content}
+                      <ArrowUpRight className="-ml-1 h-4 w-4 opacity-70" aria-hidden />
+                    </a>
+                  );
+                }
+
+                return (
+                  <Link key={btnKey} href={button.link} className={className}>
+                    {content}
+                  </Link>
+                );
+              })}
+            </div>
+
+            <div className="border-t border-border pt-8">
+              <p className="mb-4 text-[11px] font-bold uppercase tracking-[0.2em] text-muted-foreground">
+                Connect
+              </p>
+              <div className="flex flex-wrap gap-3">
+                {socialLinks.map((link) => (
+                  <a
+                    key={link.url}
+                    href={link.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={link.label}
+                    className="inline-flex h-11 w-11 items-center justify-center rounded-xl border border-border bg-card text-muted-foreground shadow-sm transition hover:border-accent/40 hover:bg-accent/10 hover:text-accent"
+                  >
+                    <HeroSocialIconGlyph icon={link.icon} />
+                  </a>
+                ))}
+              </div>
             </div>
           </div>
 
-          {/* Content Section */}
-          <div className="space-y-6 rounded-2xl">
-            {/* Name Title */}
-            {isDataLoading ? (
-              <div className="space-y-3">
-                <div className="h-12 sm:h-14 md:h-16 lg:h-20 w-3/4 bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 dark:from-gray-700 dark:via-gray-600 dark:to-gray-700 rounded-lg animate-pulse" />
-              </div>
-            ) : (
-              <h1 
-                className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-gray-900 to-gray-700 dark:from-white dark:to-gray-300"
-              >
-                {about?.nameTitle}
-              </h1>
-            )}
-            
-            {/* Profession Name */}
-            {isDataLoading ? (
-              <div className="h-8 sm:h-10 md:h-12 w-2/3 bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 dark:from-gray-700 dark:via-gray-600 dark:to-gray-700 rounded-lg animate-pulse" />
-            ) : (
-              <h2 
-                className="text-xl sm:text-2xl md:text-3xl font-semibold text-gray-800 dark:text-gray-200"
-              >
-                {about?.professonName}
-              </h2>
-            )}
-            
-            {/* Description */}
-            {isDataLoading ? (
-              <div className="space-y-2">
-                <div className="h-4 w-full bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 dark:from-gray-700 dark:via-gray-600 dark:to-gray-700 rounded animate-pulse" />
-                <div className="h-4 w-5/6 bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 dark:from-gray-700 dark:via-gray-600 dark:to-gray-700 rounded animate-pulse" />
-                <div className="h-4 w-4/6 bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 dark:from-gray-700 dark:via-gray-600 dark:to-gray-700 rounded animate-pulse" />
-              </div>
-            ) : (
-              <p 
-                className="text-base sm:text-lg text-gray-700 dark:text-gray-300"
-              >
-                {about?.shortdescription}
-              </p>
-            )}
-            <div 
-              className="flex flex-col sm:flex-row gap-4"
-            >
-              {heroData.buttons.map((button, index) => (
-                <Link key={index} href={button.link} className="w-full sm:w-auto">
-                  <button
-                    className={`w-full sm:w-auto backdrop-blur-md ${button.primary ? 
-                      "bg-gray-900/90 dark:bg-gray-700/90 text-white px-6 py-3 rounded-md font-medium shadow-lg" :
-                      "bg-white/30 dark:bg-gray-800/30 text-gray-900 dark:text-gray-100 px-6 py-3 rounded-md font-medium border border-gray-300/50 dark:border-gray-600/50 shadow-lg"
-                    } transition-transform duration-150 active:scale-95 hover:scale-[0.98]`}
+          <div className="relative order-1 lg:order-2 lg:justify-self-end">
+            <div
+              aria-hidden
+              className="absolute -left-10 top-12 hidden h-40 w-40 rounded-[2rem] border border-accent/25 bg-accent/10 blur-2xl md:block"
+            />
+            <div
+              aria-hidden
+              className="absolute -bottom-8 -right-6 h-48 w-48 rounded-full bg-accent/15 blur-[64px]"
+            />
+
+            <div className="relative mx-auto max-w-md lg:max-w-none">
+              <div
+                aria-hidden
+                className="absolute inset-0 -rotate-6 rounded-[2rem] bg-gradient-to-br from-accent/20 via-transparent to-transparent opacity-70"
+              />
+              <div className="relative overflow-hidden rounded-[1.75rem] border border-border bg-card shadow-2xl shadow-black/10 ring-1 ring-black/[0.04] dark:bg-card/80 dark:shadow-black/40 dark:ring-white/10">
+                <div className="border-b border-border bg-muted/40 px-4 py-3 dark:bg-muted/20">
+                  <div className="flex items-center gap-2">
+                    <span className="h-2.5 w-2.5 shrink-0 rounded-full bg-red-400/90" />
+                    <span className="h-2.5 w-2.5 shrink-0 rounded-full bg-amber-400/90" />
+                    <span className="h-2.5 w-2.5 shrink-0 rounded-full bg-emerald-400/90" />
+                    <span className="ml-3 flex-1 truncate rounded-md bg-background/80 py-1 text-center text-[10px] font-medium tracking-wide text-muted-foreground dark:bg-background/40">
+                      profile.preview — live
+                    </span>
+                  </div>
+                </div>
+
+                <HeroPortraitImage
+                  key={imageSrc}
+                  src={imageSrc}
+                  alt={imageAlt}
+                  showBlockingSkeleton={isDataLoading}
+                />
+
+                <div className="flex items-center justify-between gap-3 border-t border-border bg-card/95 px-4 py-3 dark:bg-card/60">
+                  <div className="min-w-0">
+                    <p className="truncate text-sm font-semibold text-foreground">
+                      {displayName}
+                    </p>
+                    <p className="truncate text-xs text-muted-foreground">
+                      {isDataLoading ? 'Loading profile…' : displayRole}
+                    </p>
+                  </div>
+                  <Link
+                    href="/contact"
+                    className="shrink-0 rounded-lg bg-accent px-3 py-1.5 text-xs font-bold text-accent-foreground shadow-sm transition hover:bg-accent/90"
                   >
-                    {button.text}
-                  </button>
-                </Link>
-              ))}
-            </div>
-            <div 
-              className="flex gap-4 mt-6"
-            >
-              {heroData.socialLinks.map((link, index) => (
-                <a
-                  key={index}
-                  href={link.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white backdrop-blur-md bg-white/20 dark:bg-gray-800/20 p-2 rounded-full shadow-lg border border-gray-200/20 dark:border-gray-700/20 transition-transform duration-150 hover:scale-110"
-                >
-                  {link.icon === 'github' && <FaGithub className="w-6 h-6" />}
-                  {link.icon === 'linkedin' && <FaLinkedin className="w-6 h-6" />}
-                  {link.icon === 'facebook' && <FaFacebook className="w-6 h-6" />}
-                  {link.icon === 'instagram' && <FaInstagram className="w-6 h-6" />}
-                  {link.icon === 'twitter' && <FaTwitter className="w-6 h-6" />}
-                </a>
-              ))}
+                    Hire
+                  </Link>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 

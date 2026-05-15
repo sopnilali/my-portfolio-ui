@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react'
 import Image from 'next/image'
 import { FaEye } from 'react-icons/fa'
 import type { Blog } from '@/services/blogService'
+import { blogCoverSrc } from './blogArchiveUtils'
 
 interface BlogDetailsProps {
     blog: Blog | null;
@@ -29,7 +30,9 @@ const BlogDetails = ({ blog }: BlogDetailsProps) => {
         );
     }
 
-    const totalViews = (blog as any).readingCount || 0 + localViews
+    const coverSrc = blogCoverSrc(blog);
+
+    const totalViews = (blog.readingCount ?? 0) + localViews;
 
     return (
         <div className="px-4 py-20 bg-white dark:bg-gray-900/40 backdrop-blur-2xl ">
@@ -54,17 +57,17 @@ const BlogDetails = ({ blog }: BlogDetailsProps) => {
             </div>
 
             {/* Featured Image */}
-            {blog.thumbnail && (
+            {coverSrc ? (
                 <div className="relative w-full h-[400px] mb-8 rounded-lg overflow-hidden container mx-auto">
                             <Image
-                                src={blog.thumbnail}
+                                src={coverSrc}
                                 alt={blog.title}
                                 fill
                                 className="object-cover"
                                 priority
                             />
                 </div>
-            )}
+            ) : null}
 
             <div className="blog-content container mx-auto " dangerouslySetInnerHTML={{ __html: blog.content }} />
 

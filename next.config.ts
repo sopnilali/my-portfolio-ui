@@ -4,7 +4,7 @@ const nextConfig: NextConfig = {
   experimental: {
     optimizeCss: false, // Disable experimental CSS optimization
   },
-  webpack: (config, { isServer }) => {
+  webpack: (config) => {
     config.resolve.fallback = {
       ...config.resolve.fallback,
       fs: false,

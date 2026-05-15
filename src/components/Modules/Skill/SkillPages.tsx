@@ -1,67 +1,81 @@
-'use client';
-
-import Image from 'next/image';
+import React from 'react';
+import { Layers3, Wrench } from 'lucide-react';
 import type { Skill } from '@/services/skillService';
+import { SkillCard } from './SkillCard';
 
 interface SkillPagesProps {
-    skills: Skill[];
+  skills: Skill[];
 }
 
 const SkillPages = ({ skills }: SkillPagesProps) => {
+  const hasSkills = skills.length > 0;
 
+  return (
+    <section className="relative min-h-[60vh] overflow-hidden bg-white py-14 dark:bg-background sm:py-20">
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -right-24 top-16 h-[26rem] w-[26rem] rounded-full bg-accent/[0.08] blur-[120px]"
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute bottom-12 left-0 h-64 w-[22rem] rounded-full bg-muted-foreground/[0.055] blur-[100px]"
+      />
 
-    // Skeleton loader for skill card
-    const SkillCardSkeleton = () => (
-        <div className="bg-white/70 dark:bg-gray-800/70 backdrop-blur-md rounded-xl p-2 sm:p-3 md:p-4 shadow-md border border-gray-200/20 dark:border-gray-700/20 flex flex-row items-center justify-between gap-3 sm:gap-4 animate-pulse">
-            <div className="relative aspect-square w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 dark:from-gray-700 dark:via-gray-600 dark:to-gray-700 rounded">
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent animate-shimmer" />
-            </div>
-            <div className="h-4 w-20 bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 dark:from-gray-700 dark:via-gray-600 dark:to-gray-700 rounded" />
-        </div>
-    );
+      <div className="relative z-[1] mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+        <header className="mx-auto mb-12 max-w-2xl text-center md:mb-16">
+          <p
+            className="mb-3 inline-flex items-center gap-2 rounded-full border border-border bg-card px-3 py-1 text-xs font-semibold uppercase tracking-[0.22em] text-muted-foreground"
+            data-aos="fade-down"
+          >
+            <Wrench className="h-3.5 w-3.5 text-accent" aria-hidden />
+            Capabilities
+          </p>
+          <h1 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl md:text-[2.85rem]">
+            Full{' '}
+            <span className="bg-gradient-to-r from-foreground via-accent to-muted-foreground bg-clip-text text-transparent dark:via-accent">
+              skill matrix
+            </span>
+          </h1>
+          <div
+            className="mx-auto mt-4 h-1 w-14 rounded-full bg-accent"
+            data-aos="zoom-in"
+            data-aos-delay="80"
+          />
+          <p
+            className="mt-4 text-sm text-muted-foreground sm:text-base"
+            data-aos="fade-up"
+            data-aos-delay="120"
+          >
+            Everything loaded from your API—from core languages to delivery and
+            DevOps—you get a dense, glanceable overview of the toolchain.
+          </p>
+        </header>
 
-
-
-    return (
-        <div className="relative bg-white dark:bg-gray-900/40 backdrop-blur-2xl">
-            <div className="container mx-auto px-4 sm:px-4 lg:px-4 py-12 relative z-10">
-                <h2 
-                    className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white mb-8"
-                >
-                    Skills
-                </h2>
-
-                <div
-                    className="grid grid-cols-1 xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-6 gap-4"
-                >
-                    {skills.length === 0 ? (
-                        [...Array(12)].map((_, index) => (
-                            <SkillCardSkeleton key={index} />
-                        ))
-                    ) : (
-                        skills.map((skill, index) => (
-                        <div
-                            key={skill.name}
-                            className="bg-white/70 dark:bg-gray-800/70 backdrop-blur-md rounded-xl p-2 sm:p-3 md:p-4 shadow-md hover:shadow-lg transition-all duration-300 flex flex-row items-center justify-between gap-3 sm:gap-4 cursor-pointer border border-gray-200/20 dark:border-gray-700/20 active:scale-95"
-                        >
-                            <div className="relative aspect-square w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12">
-                                <Image 
-                                    src={skill.icon}
-                                    alt={skill.name}
-                                    fill
-                                    className="object-contain transition-transform duration-300 hover:scale-110"
-                                />
-                            </div>
-                            <h3 className="text-sm sm:text-base font-medium text-gray-900 dark:text-white text-left w-full">
-                                {skill.name}
-                            </h3>
-                        </div>
-                        ))
-                    )}
-                </div>
-            </div>
-        </div>
-    );
+        {!hasSkills ? (
+          <div className="flex flex-col items-center gap-4 rounded-2xl border border-dashed border-border bg-muted/30 px-8 py-16 text-center dark:bg-muted/15">
+            <Layers3 className="h-12 w-12 text-muted-foreground/45" aria-hidden />
+            <p className="text-base font-medium text-foreground">
+              No skills loaded yet
+            </p>
+            <p className="max-w-md text-sm text-muted-foreground">
+              When your backend returns skill records, each one appears here as a card
+              with icon and label.
+            </p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 sm:gap-5">
+            {skills.map((skill, index) => (
+              <SkillCard
+                key={skill.id ?? skill.name}
+                skill={skill}
+                index={index}
+              />
+            ))}
+          </div>
+        )}
+      </div>
+    </section>
+  );
 };
 
 export default SkillPages;
