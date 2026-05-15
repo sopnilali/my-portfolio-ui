@@ -56,7 +56,7 @@ export async function fetchJson<T>(
       error !== null &&
       (error as Error).name === 'AbortError'
     ) {
-      throw new Error(`Request to ${path} timed out after ${timeoutMs}ms`);
+      throw new Error(`Request to ${path} timed out after ${timeoutMs}ms!`);
     }
     throw error;
   } finally {
