@@ -1,4 +1,16 @@
-const API_BASE = `${process.env.NEXT_PUBLIC_BASE_API}/api`;
+/** Backend origin only (no `/api`). Example: https://your-api.example.com */
+function getPublicApiOrigin(): string {
+  return process.env.NEXT_PUBLIC_BASE_API?.trim() ?? '';
+}
+
+/** Resolved JSON API prefix: `{origin}/api` */
+function getApiBase(): string {
+  const origin = getPublicApiOrigin().replace(/\/+$/, '');
+  if (!origin) return '';
+  return `${origin}/api`;
+}
+
+const API_BASE = getApiBase();
 
 export interface ApiResponse<T> {
   data: T;
@@ -31,7 +43,14 @@ export async function fetchJson<T>(
       ? Math.min(Math.max(timeoutOverride, 1000), 120000)
       : resolveDefaultTimeoutMs();
 
-  const url = `${API_BASE}${path}`;
+  if (!API_BASE) {
+    throw new Error(
+      'API base URL is not configured. Set NEXT_PUBLIC_BASE_API in .env (see .env.example) and redeploy.',
+    );
+  }
+
+  const normalizedPath = path.startsWith('/') ? path : `/${path}`;
+  const url = `${API_BASE}${normalizedPath}`;
   const controller = new AbortController();
   const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
 
@@ -46,7 +65,15 @@ export async function fetchJson<T>(
 
     if (!res.ok) {
       const text = await res.text().catch(() => '');
-      throw new Error(`Request to ${path} failed: ${res.status} ${text}`);
+      const snippet = text.replace(/\s+/g, ' ').slice(0, 240);
+      const vercelGone =
+        /deployment could not be found on Vercel|DEPLOYMENT_NOT_FOUND/i.test(text);
+      const hint = vercelGone
+        ? ' — NEXT_PUBLIC_BASE_API points to a removed or invalid Vercel URL. In Vercel → this project → Settings → Environment Variables, set NEXT_PUBLIC_BASE_API to your live backend origin (the API server that serves /api/skill), then redeploy.'
+        : '';
+      throw new Error(
+        `Request to ${normalizedPath} failed (${res.status}): ${snippet || '(empty body)'}${hint}`,
+      );
     }
 
     return (await res.json()) as T;
