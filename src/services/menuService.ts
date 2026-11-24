@@ -77,6 +77,18 @@ export function normalizeMenuItems(raw: MenuItem[]): MenuItem[] {
     .sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
 }
 
+/** GET /api/menu/:id — a single menu item */
+export async function getMenuItemById(id: string): Promise<MenuItem | null> {
+  try {
+    const res = await fetchJson<ApiResponse<MenuItem>>(`/menu/${id}`, {
+      timeoutMs: 15000,
+    });
+    return res.data ?? null;
+  } catch {
+    return null;
+  }
+}
+
 /** Server or client: GET /api/menu via shared fetch helper */
 export async function getMenuItems(): Promise<MenuItem[]> {
   try {

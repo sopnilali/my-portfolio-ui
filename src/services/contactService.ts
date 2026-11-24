@@ -11,12 +11,11 @@ export interface ContactResponse {
 }
 
 function contactApiUrl(): string {
-  if (typeof window !== 'undefined') {
-    return '/api/contact';
+  if (typeof window !== 'undefined') return '/backend/contact';
+  const origin = (process.env.NEXT_PUBLIC_BASE_API ?? '').trim().replace(/\/+$/, '');
+  if (!origin) {
+    throw new Error('API base URL is not configured (NEXT_PUBLIC_BASE_API).');
   }
-  const origin =
-    process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, '') ||
-    `http://localhost:${process.env.PORT ?? '3000'}`;
   return `${origin}/api/contact`;
 }
 
@@ -27,10 +26,22 @@ export async function createContact(
   const timeoutId = setTimeout(() => controller.abort(), 30000);
 
   try {
+    const headers: Record<string, string> = {
+      'Content-Type': 'application/json',
+    };
+    if (typeof window === 'undefined') {
+      const apiKey = process.env.API_KEY?.trim();
+      if (apiKey) headers['x-api-key'] = apiKey;
+    }
+
     const res = await fetch(contactApiUrl(), {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload),
+      headers,
+      body: JSON.stringify({
+        name: payload.name,
+        email: payload.email,
+        message: payload.message,
+      }),
       signal: controller.signal,
       cache: 'no-store',
     });

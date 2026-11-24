@@ -1,5 +1,6 @@
 import React from 'react';
 import HeroSection from './HeroSection';
+import StatsStrip from './StatsStrip';
 import ExperienceAndEducationList from '../ExperienceAndEducationList';
 import ProjectList from '../Project/ProjectList';
 import BlogList from '../Blog/BlogList';
@@ -28,6 +29,14 @@ const HomePageIndex = ({
   return (
     <div>
       <HeroSection about={about} />
+      <StatsStrip
+        stats={[
+          { value: projects.length, label: 'Projects shipped' },
+          { value: skills.length, label: 'Technologies' },
+          { value: experiences.length, label: 'Roles & experience' },
+          { value: blogs.length, label: 'Articles written' },
+        ]}
+      />
       <ProjectList projects={projects} />
       <SkillsList skills={skills} />
       <ExperienceAndEducationList experiences={experiences} />

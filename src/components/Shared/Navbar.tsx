@@ -7,11 +7,24 @@ import { ExternalLink, Menu, X } from 'lucide-react';
 import ThemeToggle from './ThemeToggle';
 import {
   type MenuItem,
-  getMenuItems,
   NAV_FALLBACK_ITEMS,
 } from '@/services/menuService';
+import type { About } from '@/services/aboutService';
 
-const LOGO_INITIALS = 'MA';
+const DEFAULT_NAME = 'Md. Abdul Adud';
+const DEFAULT_ROLE = 'Full Stack Developer';
+
+function initialsFromName(name: string): string {
+  const initials = name
+    .replace(/[^A-Za-z0-9\s]/g, ' ')
+    .trim()
+    .split(/\s+/)
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((word) => word[0]?.toUpperCase() ?? '')
+    .join('');
+  return initials || 'MA';
+}
 
 function isPathActive(pathname: string, menuPath: string): boolean {
   const base = menuPath.replace(/\/$/, '') || '/';
@@ -20,10 +33,23 @@ function isPathActive(pathname: string, menuPath: string): boolean {
   return pathname.startsWith(`${base}/`);
 }
 
-const Navbar = () => {
+interface NavbarProps {
+  about?: About | null;
+  menuItems?: MenuItem[];
+}
+
+const Navbar = ({ about = null, menuItems: initialMenuItems }: NavbarProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const [menuItems, setMenuItems] = useState<MenuItem[]>(NAV_FALLBACK_ITEMS);
+  const [menuItems] = useState<MenuItem[]>(
+    initialMenuItems && initialMenuItems.length > 0
+      ? initialMenuItems
+      : NAV_FALLBACK_ITEMS,
+  );
+
+  const name = about?.nameTitle?.trim() || DEFAULT_NAME;
+  const role = about?.professonName?.trim() || DEFAULT_ROLE;
+  const initials = initialsFromName(name);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -32,18 +58,6 @@ const Navbar = () => {
     handleScroll();
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  useEffect(() => {
-    let cancelled = false;
-    getMenuItems().then((items) => {
-      if (!cancelled && items.length > 0) {
-        setMenuItems(items);
-      }
-    });
-    return () => {
-      cancelled = true;
-    };
   }, []);
 
   useEffect(() => {
@@ -85,14 +99,14 @@ const Navbar = () => {
               className="relative flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-gradient-to-br from-accent via-accent to-accent/80 text-[11px] font-bold tracking-tight text-accent-foreground shadow-md shadow-accent/25 ring-2 ring-accent/20 transition group-hover:shadow-lg group-hover:shadow-accent/25 sm:h-10 sm:w-10 sm:text-xs"
               aria-hidden
             >
-              {LOGO_INITIALS}
+              {initials}
             </span>
             <div className="hidden min-w-0 flex-col leading-tight sm:flex">
               <span className="truncate text-[10px] font-bold uppercase tracking-[0.18em] text-muted-foreground">
-                Md. Abdul Adud
+                {name}
               </span>
               <span className="truncate bg-gradient-to-r from-foreground to-muted-foreground bg-clip-text text-sm font-semibold text-transparent sm:text-base">
-                Full Stack Developer
+                {role}
               </span>
             </div>
           </Link>

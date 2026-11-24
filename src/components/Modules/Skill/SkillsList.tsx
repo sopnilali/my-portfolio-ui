@@ -16,7 +16,7 @@ const SkillsList = ({ skills }: SkillsListProps) => {
   const hasMore = skills.length > PREVIEW_MAX;
 
   return (
-    <section className="relative overflow-hidden bg-white py-14 dark:bg-background sm:py-20">
+    <section className="relative overflow-hidden border-t border-border/60 py-16 sm:py-24">
       <div
         aria-hidden
         className="pointer-events-none absolute left-1/4 top-0 h-72 w-[28rem] -translate-x-1/2 rounded-full bg-accent/[0.085] blur-[110px]"

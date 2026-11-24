@@ -12,6 +12,8 @@ import {
   ExternalLink,
   Facebook,
   Github,
+  Instagram,
+  Twitter,
   Linkedin,
   Mail,
   MapPin,
@@ -20,6 +22,7 @@ import {
   Sparkles,
   Smartphone,
 } from 'lucide-react';
+import { getAboutList, getHeroSocialLinks, type HeroSocialLink } from '@/services/aboutService';
 import {
   type MenuItem,
   getMenuItems,
@@ -40,15 +43,37 @@ const SERVICE_LABELS = [
   { label: 'Database Design', icon: Database },
 ];
 
+function SocialGlyph({ icon }: { icon: HeroSocialLink['icon'] }) {
+  const c = 'h-[1.125rem] w-[1.125rem]';
+  if (icon === 'github') return <Github className={c} aria-hidden />;
+  if (icon === 'linkedin') return <Linkedin className={c} aria-hidden />;
+  if (icon === 'facebook') return <Facebook className={c} aria-hidden />;
+  if (icon === 'twitter') return <Twitter className={c} aria-hidden />;
+  return <Instagram className={c} aria-hidden />;
+}
+
 const Footer = () => {
   const pathname = usePathname();
   const [navItems, setNavItems] = useState<MenuItem[]>(NAV_FALLBACK_ITEMS);
+  const [socials, setSocials] = useState<HeroSocialLink[]>(getHeroSocialLinks(null));
 
   useEffect(() => {
     let cancelled = false;
     getMenuItems().then((items) => {
       if (!cancelled) setNavItems(items);
     });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  useEffect(() => {
+    let cancelled = false;
+    getAboutList()
+      .then((list) => {
+        if (!cancelled) setSocials(getHeroSocialLinks(list[0] ?? null));
+      })
+      .catch(() => {});
     return () => {
       cancelled = true;
     };
@@ -76,6 +101,27 @@ const Footer = () => {
       />
 
       <div className="relative z-[1] mx-auto max-w-6xl px-4 pb-10 pt-14 sm:px-6 lg:px-8">
+        <div className="relative mb-14 overflow-hidden rounded-3xl border border-border bg-gradient-to-br from-accent/15 via-card to-card p-8 shadow-xl shadow-accent/5 sm:p-12">
+          <div aria-hidden className="pointer-events-none absolute -right-16 -top-16 h-56 w-56 rounded-full bg-accent/25 blur-[80px]" />
+          <div className="relative flex flex-col items-start justify-between gap-6 md:flex-row md:items-center">
+            <div className="max-w-xl">
+              <h2 className="text-2xl font-extrabold tracking-tight text-foreground sm:text-4xl">
+                Have a project in mind?
+              </h2>
+              <p className="mt-2 text-sm text-muted-foreground sm:text-base">
+                Let&apos;s build something fast, polished and dependable together.
+              </p>
+            </div>
+            <Link
+              href="/contact"
+              className="inline-flex items-center gap-2 rounded-xl bg-accent px-6 py-3.5 text-sm font-semibold text-accent-foreground shadow-lg shadow-accent/25 transition hover:bg-accent/90 active:scale-[0.98]"
+            >
+              Start a project
+              <ArrowUpRight className="h-4 w-4" aria-hidden />
+            </Link>
+          </div>
+        </div>
+
         <div className="grid gap-12 lg:grid-cols-12 lg:gap-10">
           {/* Brand */}
           <div className="space-y-6 lg:col-span-4">
@@ -230,33 +276,18 @@ const Footer = () => {
             </ul>
 
             <div className="flex flex-wrap gap-2 pt-1">
-              <a
-                href="https://github.com/sopnilali"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="GitHub"
-                className="inline-flex h-11 w-11 items-center justify-center rounded-xl border border-border bg-background/70 text-muted-foreground shadow-sm transition hover:border-accent/45 hover:bg-accent/10 hover:text-accent"
-              >
-                <Github className="h-[1.125rem] w-[1.125rem]" aria-hidden />
-              </a>
-              <a
-                href="https://www.linkedin.com/in/ami-abdul-adud"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="LinkedIn"
-                className="inline-flex h-11 w-11 items-center justify-center rounded-xl border border-border bg-background/70 text-muted-foreground shadow-sm transition hover:border-accent/45 hover:bg-accent/10 hover:text-accent"
-              >
-                <Linkedin className="h-[1.125rem] w-[1.125rem]" aria-hidden />
-              </a>
-              <a
-                href="https://www.facebook.com/cse.wadud"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Facebook"
-                className="inline-flex h-11 w-11 items-center justify-center rounded-xl border border-border bg-background/70 text-muted-foreground shadow-sm transition hover:border-accent/45 hover:bg-accent/10 hover:text-accent"
-              >
-                <Facebook className="h-[1.125rem] w-[1.125rem]" aria-hidden />
-              </a>
+              {socials.map((link) => (
+                <a
+                  key={link.url}
+                  href={link.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={link.label}
+                  className="inline-flex h-11 w-11 items-center justify-center rounded-xl border border-border bg-background/70 text-muted-foreground shadow-sm transition hover:border-accent/45 hover:bg-accent/10 hover:text-accent"
+                >
+                  <SocialGlyph icon={link.icon} />
+                </a>
+              ))}
             </div>
           </div>
         </div>

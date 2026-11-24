@@ -212,7 +212,7 @@ const ExperienceAndEducationList = ({
   ];
 
   return (
-    <section className="relative overflow-hidden bg-background pb-16 pt-8 text-foreground transition-colors duration-500">
+    <section className="relative overflow-hidden border-t border-border/60 py-16 text-foreground sm:py-24">
       {/* theme wash */}
       <div
         aria-hidden

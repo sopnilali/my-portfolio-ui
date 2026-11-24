@@ -127,7 +127,7 @@ const BlogList = ({ blogs }: BlogListProps) => {
     const hasPosts = preview.length > 0;
 
     return (
-        <section className="relative overflow-hidden bg-background py-14 text-foreground transition-colors md:py-20">
+        <section className="relative overflow-hidden border-t border-border/60 py-16 text-foreground md:py-24">
             <div
                 aria-hidden
                 className="pointer-events-none absolute -right-28 top-0 h-72 w-72 rounded-full bg-accent/[0.07] blur-[100px]"

@@ -7,15 +7,8 @@ import { MoonIcon, SunIcon } from "lucide-react";
 export default function ThemeToggle() {
   const [darkMode, setDarkMode] = useState(false);
 
-  // পেজ লোড হলে লোকাল স্টোরেজ/সিস্টেম থিম চেক করুন
   useEffect(() => {
-    const savedTheme = localStorage.getItem("theme");
-    const systemDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-
-    if (savedTheme === "dark" || (!savedTheme && systemDark)) {
-      setDarkMode(true);
-      document.documentElement.classList.add("dark");
-    }
+    setDarkMode(document.documentElement.classList.contains("dark"));
   }, []);
 
   // থিম টগল করার ফাংশন
@@ -33,13 +26,13 @@ export default function ThemeToggle() {
   return (
     <button
       onClick={toggleTheme}
-      className="p-2 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700"
+      className="p-2 rounded-lg hover:bg-muted"
       aria-label="Toggle dark mode"
     >
       {darkMode ? (
         <SunIcon className="w-5 h-5 text-yellow-400" /> // ডার্ক মোডে সান আইকন
       ) : (
-        <MoonIcon className="w-5 h-5 text-gray-800" /> // লাইট মোডে মুন আইকন
+        <MoonIcon className="w-5 h-5 text-foreground" /> // লাইট মোডে মুন আইকন
       )}
     </button>
   );

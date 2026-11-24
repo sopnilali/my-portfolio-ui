@@ -16,3 +16,13 @@ export async function getSkills(): Promise<Skill[]> {
   }
 }
 
+export async function getSkillById(id: string): Promise<Skill | null> {
+  try {
+    const res = await fetchJson<ApiResponse<Skill>>(`/skill/${id}`);
+    return res.data ?? null;
+  } catch (error) {
+    console.error('Failed to fetch skill by id', error);
+    return null;
+  }
+}
+

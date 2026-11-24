@@ -6,20 +6,13 @@ import Image from 'next/image';
 import {
   ArrowRight,
   ArrowUpRight,
-  Facebook,
   FileText,
-  Github,
-  Globe,
-  Instagram,
-  Linkedin,
   Sparkles,
-  Twitter,
   Zap,
 } from 'lucide-react';
-import type { About, HeroSocialIcon } from '@/services/aboutService';
+import type { About } from '@/services/aboutService';
 import {
   getHeroButtons,
-  getHeroSocialLinks,
   heroAvailabilityBadge,
   heroDisplayBio,
   heroDisplayName,
@@ -32,24 +25,6 @@ import {
 
 function isExternalHref(href: string): boolean {
   return /^https?:\/\//i.test(href);
-}
-
-function HeroSocialIconGlyph({ icon }: { icon: HeroSocialIcon }) {
-  const c = 'h-[1.125rem] w-[1.125rem] shrink-0';
-  switch (icon) {
-    case 'github':
-      return <Github className={c} aria-hidden />;
-    case 'linkedin':
-      return <Linkedin className={c} aria-hidden />;
-    case 'facebook':
-      return <Facebook className={c} aria-hidden />;
-    case 'twitter':
-      return <Twitter className={c} aria-hidden />;
-    case 'instagram':
-      return <Instagram className={c} aria-hidden />;
-    default:
-      return <Globe className={c} aria-hidden />;
-  }
 }
 
 function HeroPortraitImage({
@@ -105,7 +80,6 @@ const HeroSection = ({ about }: HeroSectionProps) => {
   const availabilityBadge = heroAvailabilityBadge(about);
   const highlights = parseHeroHighlights(about);
   const heroButtons = getHeroButtons(about);
-  const socialLinks = getHeroSocialLinks(about);
 
   const ctaClassPrimary =
     'inline-flex w-full items-center justify-center gap-2 rounded-xl bg-accent px-6 py-3.5 text-sm font-semibold text-accent-foreground shadow-lg shadow-accent/25 transition hover:bg-accent/90 hover:shadow-xl hover:shadow-accent/20 active:scale-[0.98] sm:w-auto';
@@ -114,20 +88,7 @@ const HeroSection = ({ about }: HeroSectionProps) => {
     'inline-flex w-full items-center justify-center gap-2 rounded-xl border border-border bg-background/80 px-6 py-3.5 text-sm font-semibold text-foreground backdrop-blur-sm transition hover:border-accent/40 hover:bg-accent/5 hover:text-accent active:scale-[0.98] sm:w-auto';
 
   return (
-    <section className="relative isolate overflow-hidden bg-background pb-20 pt-[5.25rem] md:pb-28 md:pt-28">
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 -z-10 bg-[linear-gradient(to_right,rgba(100,116,139,0.09)_1px,transparent_1px),linear-gradient(to_bottom,rgba(100,116,139,0.09)_1px,transparent_1px)] bg-[length:48px_48px] dark:bg-[linear-gradient(to_right,rgba(148,163,184,0.08)_1px,transparent_1px),linear-gradient(to_bottom,rgba(148,163,184,0.08)_1px,transparent_1px)]"
-      />
-      <div
-        aria-hidden
-        className="pointer-events-none absolute -top-24 right-0 h-[28rem] w-[28rem] rounded-full bg-accent/20 blur-[100px]"
-      />
-      <div
-        aria-hidden
-        className="pointer-events-none absolute -bottom-32 left-[10%] h-[22rem] w-[22rem] rounded-full bg-muted-foreground/10 blur-[90px]"
-      />
-
+    <section className="relative isolate overflow-hidden pb-20 pt-[5.25rem] md:pb-28 md:pt-32">
       <div className="relative z-[1] mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <div className="grid items-center gap-14 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:gap-16">
           <div className="order-2 space-y-8 lg:order-1">
@@ -157,7 +118,7 @@ const HeroSection = ({ about }: HeroSectionProps) => {
             ) : (
               <>
                 <div className="space-y-4">
-                  <h1 className="text-[2.125rem] font-bold tracking-tight text-foreground sm:text-5xl lg:text-[3.25rem] lg:leading-[1.08]">
+                  <h1 className="text-[2.5rem] font-extrabold tracking-tight text-foreground sm:text-6xl lg:text-[4rem] lg:leading-[1.04]">
                     <span className="bg-gradient-to-r from-foreground via-accent to-muted-foreground bg-clip-text text-transparent dark:via-accent">
                       {displayName}
                     </span>
@@ -223,25 +184,6 @@ const HeroSection = ({ about }: HeroSectionProps) => {
               })}
             </div>
 
-            <div className="border-t border-border pt-8">
-              <p className="mb-4 text-[11px] font-bold uppercase tracking-[0.2em] text-muted-foreground">
-                Connect
-              </p>
-              <div className="flex flex-wrap gap-3">
-                {socialLinks.map((link) => (
-                  <a
-                    key={link.url}
-                    href={link.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={link.label}
-                    className="inline-flex h-11 w-11 items-center justify-center rounded-xl border border-border bg-card text-muted-foreground shadow-sm transition hover:border-accent/40 hover:bg-accent/10 hover:text-accent"
-                  >
-                    <HeroSocialIconGlyph icon={link.icon} />
-                  </a>
-                ))}
-              </div>
-            </div>
           </div>
 
           <div className="relative order-1 lg:order-2 lg:justify-self-end">
@@ -259,18 +201,7 @@ const HeroSection = ({ about }: HeroSectionProps) => {
                 aria-hidden
                 className="absolute inset-0 -rotate-6 rounded-[2rem] bg-gradient-to-br from-accent/20 via-transparent to-transparent opacity-70"
               />
-              <div className="relative overflow-hidden rounded-[1.75rem] border border-border bg-card shadow-2xl shadow-black/10 ring-1 ring-black/[0.04] dark:bg-card/80 dark:shadow-black/40 dark:ring-white/10">
-                <div className="border-b border-border bg-muted/40 px-4 py-3 dark:bg-muted/20">
-                  <div className="flex items-center gap-2">
-                    <span className="h-2.5 w-2.5 shrink-0 rounded-full bg-red-400/90" />
-                    <span className="h-2.5 w-2.5 shrink-0 rounded-full bg-amber-400/90" />
-                    <span className="h-2.5 w-2.5 shrink-0 rounded-full bg-emerald-400/90" />
-                    <span className="ml-3 flex-1 truncate rounded-md bg-background/80 py-1 text-center text-[10px] font-medium tracking-wide text-muted-foreground dark:bg-background/40">
-                      profile.preview — live
-                    </span>
-                  </div>
-                </div>
-
+              <div className="relative overflow-hidden rounded-[1.75rem] border border-border/80 bg-card p-1.5 shadow-2xl shadow-accent/10 ring-1 ring-black/[0.04] dark:bg-card/80 dark:shadow-black/40 dark:ring-white/10">
                 <HeroPortraitImage
                   key={imageSrc}
                   src={imageSrc}

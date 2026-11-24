@@ -10,7 +10,9 @@ function getApiBase(): string {
   return `${origin}/api`;
 }
 
-const API_BASE = getApiBase();
+/** Browser -> same-origin proxy (no CORS); server -> backend directly. */
+const API_BASE =
+  typeof window !== 'undefined' && getPublicApiOrigin() ? '/backend' : getApiBase();
 
 export interface ApiResponse<T> {
   data: T;
@@ -56,9 +58,16 @@ export async function fetchJson<T>(
 
   try {
     const isServer = typeof window === 'undefined';
+    const headers = new Headers(requestInit.headers);
+    if (isServer) {
+      const apiKey = process.env.API_KEY?.trim();
+      if (apiKey) headers.set('x-api-key', apiKey);
+    }
+
     const res = await fetch(url, {
       ...(isServer ? { next: { revalidate: 60 } } : { cache: 'no-store' }),
       ...requestInit,
+      headers,
       // Must be last so our timeout AbortSignal is not overwritten by callers
       signal: controller.signal,
     });
